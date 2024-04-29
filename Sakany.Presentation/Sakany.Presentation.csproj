@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sakany.Application\Sakany.Application.csproj" />
+    <ProjectReference Include="..\Sakany.Core\Sakany.Core.csproj" />
     <ProjectReference Include="..\Sakany.Infrastructure\Sakany.Infrastructure.csproj" />
   </ItemGroup>
 

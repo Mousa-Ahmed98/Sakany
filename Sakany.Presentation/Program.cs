@@ -1,7 +1,9 @@
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Sakany.Infrastructure;
+using Sakany.Core.Entities;
 
 namespace Sakany.Presentation
 {
@@ -22,11 +24,16 @@ namespace Sakany.Presentation
             builder.Services.AddSwaggerGen();
 
             //Database configurations
+
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
             });
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var app = builder.Build();
 
@@ -37,6 +44,7 @@ namespace Sakany.Presentation
                 app.UseSwaggerUI();
             }
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
