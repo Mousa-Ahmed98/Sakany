@@ -21,5 +21,14 @@ namespace Sakany.Application.DTOS
         [Required(ErrorMessage = "Please Enter Email")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Please Enter Phone Number")]
+        [RegularExpression("^01[0-2]\\d{8}$")]
+        public string PhoneNumber { get; set; }
+
+
+        public string Role { get; set; }
+
+
     }
 }
