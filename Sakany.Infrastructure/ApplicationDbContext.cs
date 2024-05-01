@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sakany.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +21,6 @@ namespace Sakany.Infrastructure
         {
             
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            
             base.OnModelCreating(modelBuilder);
         }
     }
