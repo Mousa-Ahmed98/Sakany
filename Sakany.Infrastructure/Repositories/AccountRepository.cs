@@ -101,7 +101,8 @@ namespace Sakany.Infrastructure.Repositories
 
                     //security
 
-                    var SignKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("any words w khalas"));
+                    var SignKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("asjiohwvwoihfwvbuvvdiKDEKDEWJAeDEdic237732JFE2343£R3je£"));
+
                     SigningCredentials signingCredentials = new SigningCredentials(SignKey, SecurityAlgorithms.HmacSha256);
 
                     JwtSecurityToken MyToken = new JwtSecurityToken(
