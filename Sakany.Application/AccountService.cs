@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 using Sakany.Core.Entities;
 using AutoMapper;
 
-namespace Sakany.Application.Mapping
+namespace Sakany.Application
 {
     public class AccountService : IAccountService
     {
         private IAccountRepository AccountRepository;
         private IMapper mapper;
 
-        public AccountService(IAccountRepository accountRepository , IMapper mapper)
+        public AccountService(IAccountRepository accountRepository, IMapper mapper)
         {
-            this.AccountRepository = accountRepository;
+            AccountRepository = accountRepository;
             this.mapper = mapper;
         }
 
@@ -26,7 +26,7 @@ namespace Sakany.Application.Mapping
         {
             ApplicationUser user = mapper.Map<ApplicationUser>(registerUserDTO);
 
-            return await AccountRepository.Register(user , registerUserDTO);
+            return await AccountRepository.Register(user, registerUserDTO);
         }
 
         public async Task<dynamic> Login(LoginUserDTO userDTO)
