@@ -35,5 +35,21 @@ namespace Sakany.Application
             return await AccountRepository.Login(userDTO);
         }
 
+        public async Task<EditUserProfileDTO> EditUserProfile(EditUserProfileDTO editUserProfileDTO, string userId)
+        {
+            ApplicationUser user = mapper.Map<ApplicationUser>(editUserProfileDTO);
+            user.Id = userId;
+            Console.WriteLine(userId);
+            Console.WriteLine("From service");
+            user = await AccountRepository.EditUserProfile(user);
+            editUserProfileDTO = mapper.Map<EditUserProfileDTO>(user);
+            return editUserProfileDTO;
+        }
+
+        public async Task<EditUserProfileDTO?> GetUserProfile(string UserName)
+        {
+            ApplicationUser? applicationUser = await AccountRepository.GetUserProfile(UserName);
+            return mapper.Map<EditUserProfileDTO>(applicationUser);
+        }
     }
 }

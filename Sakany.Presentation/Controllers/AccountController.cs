@@ -8,6 +8,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Sakany.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Sakany.Presentation.Controllers
 {
@@ -61,6 +63,42 @@ namespace Sakany.Presentation.Controllers
                 return Unauthorized();
             }
             return BadRequest(ModelState);
+        }
+        
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("Edit profile")]
+        public async Task<IActionResult> EditProfile(EditUserProfileDTO editUserProfileDTO)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                
+                Console.WriteLine(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                Console.WriteLine("From controller");
+                return Ok(User.Identity.Name);
+                editUserProfileDTO = await accountService.EditUserProfile(editUserProfileDTO, userId);
+                return Ok(editUserProfileDTO);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [HttpGet("Get user")]
+        public async Task<IActionResult> GetUserData(string UserName)
+        {
+            if (!UserName.IsNullOrEmpty())
+            {
+                EditUserProfileDTO? editUserProfileDTO = await accountService.GetUserProfile(UserName);
+                if (editUserProfileDTO != null)
+                {
+                    return Ok(editUserProfileDTO);
+                }
+                return BadRequest("No data was found");
+            }
+           return BadRequest(ModelState);
         }
 
     }

@@ -13,8 +13,12 @@ namespace Sakany.Application.Mapping
     {
         public MappingProfile()
         {
+            //        TSource          TDestination
             CreateMap<RegisterUserDTO, ApplicationUser>();
             CreateMap<ApplicationUser, LoginUserDTO>();
+
+            CreateMap<EditUserProfileDTO, ApplicationUser>();
+            CreateMap<ApplicationUser, EditUserProfileDTO>();
         }
     }
 }
