@@ -13,8 +13,8 @@ namespace Sakany.Application
 {
     public class AccountService : IAccountService
     {
-        private IAccountRepository AccountRepository;
-        private IMapper mapper;
+        private readonly IAccountRepository AccountRepository;
+        private readonly IMapper mapper;
 
         public AccountService(IAccountRepository accountRepository, IMapper mapper)
         {
@@ -35,12 +35,15 @@ namespace Sakany.Application
             return await AccountRepository.Login(userDTO);
         }
 
+
+
+
+
         public async Task<EditUserProfileDTO> EditUserProfile(EditUserProfileDTO editUserProfileDTO, string userId)
         {
             ApplicationUser user = mapper.Map<ApplicationUser>(editUserProfileDTO);
             user.Id = userId;
-            Console.WriteLine(userId);
-            Console.WriteLine("From service");
+            
             user = await AccountRepository.EditUserProfile(user);
             editUserProfileDTO = mapper.Map<EditUserProfileDTO>(user);
             return editUserProfileDTO;

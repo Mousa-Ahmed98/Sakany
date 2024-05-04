@@ -105,6 +105,7 @@ namespace Sakany.Presentation
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+
             });
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()

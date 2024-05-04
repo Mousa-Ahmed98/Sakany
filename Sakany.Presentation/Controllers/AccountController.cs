@@ -65,6 +65,11 @@ namespace Sakany.Presentation.Controllers
             return BadRequest(ModelState);
         }
         
+
+
+
+
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("Edit profile")]
         public async Task<IActionResult> EditProfile(EditUserProfileDTO editUserProfileDTO)
@@ -73,10 +78,6 @@ namespace Sakany.Presentation.Controllers
             {
 
                 var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                
-                Console.WriteLine(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                Console.WriteLine("From controller");
-                return Ok(User.Identity.Name);
                 editUserProfileDTO = await accountService.EditUserProfile(editUserProfileDTO, userId);
                 return Ok(editUserProfileDTO);
             }

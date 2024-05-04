@@ -17,5 +17,18 @@ namespace Sakany.Core.Entities
         public Education? Education { get; set; }
         public string? Employment { get; set; }
         public string? Job { get; set; }
+
+        public ApplicationUser ExteractInfo(ApplicationUser appUser)
+        {
+            this.SecondPhoneNumber = appUser.SecondPhoneNumber;
+            this.Age = appUser.Age;
+            this.Gender = appUser.Gender;
+            this.MaritalStatus = appUser.MaritalStatus;
+            this.Education = appUser.Education;
+            this.Employment = appUser.Employment;
+            this.Job = appUser.Job;
+
+            return this;
+        }
     }
 }

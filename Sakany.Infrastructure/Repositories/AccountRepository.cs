@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -21,13 +22,17 @@ namespace Sakany.Infrastructure.Repositories
         private IConfiguration configuration;
         private RoleManager<IdentityRole> RoleManager;
         private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public AccountRepository(UserManager<ApplicationUser> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext)
+
+        public AccountRepository(UserManager<ApplicationUser> userManager, IConfiguration configuration,
+            RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext, IMapper mapper)
         {
             this.userManager = userManager;
             this.configuration = configuration;
             this.RoleManager = roleManager;
             this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         public async Task<IdentityResult> Register(ApplicationUser user , RegisterUserDTO registerUserDTO)
@@ -133,10 +138,12 @@ namespace Sakany.Infrastructure.Repositories
         {
             var user = await userManager.FindByIdAsync(applicationUser.Id);
             Console.WriteLine(applicationUser.Id);
-            
-            user.SecondPhoneNumber = applicationUser.SecondPhoneNumber;
-            IdentityResult identityResult = await userManager.UpdateAsync(user);
-            return applicationUser;
+            if(user != null)
+            {
+                user = user.ExteractInfo(applicationUser);
+                IdentityResult identityResult = await userManager.UpdateAsync(user);
+            }
+            return user!;
         }
 
         public async Task<ApplicationUser?> GetUserProfile(string UserName)
