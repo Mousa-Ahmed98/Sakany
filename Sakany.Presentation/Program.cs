@@ -39,29 +39,28 @@ namespace Sakany.Presentation
 
             builder.Services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                //[authore ]:found toke or not
+                
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                //account/loginresonse unauthorize
+                
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options => {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
-                    ValidIssuer = builder.Configuration["JWT:ValidIss"],
                     ValidateAudience = true,
-                    ValidAudience = builder.Configuration["JWT:ValidAud"],
-                    IssuerSigningKey =
-                    new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecritKey"]))
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "http://localhost:5019/",
+                    ValidAudience = "http://localhost:4200",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding
+                    .UTF8.GetBytes("asjiohwvwoihfwvbuvvdiKDEKDEWJAeDEdic237732JFE2343£R3je£"))
                 };
             });
 
 
 
             #region Swagger REgion
-            builder.Services.AddSwaggerGen(swagger =>
+            /*builder.Services.AddSwaggerGen(swagger =>
             {
                 //This is to generate the Default UI of Swagger Documentation    
                 swagger.SwaggerDoc("v1", new OpenApiInfo
@@ -94,7 +93,7 @@ namespace Sakany.Presentation
                     new string[] {}
                     }
                     });
-            });
+            });*/
             #endregion
             //----------------------------------------------------------
 
@@ -106,6 +105,7 @@ namespace Sakany.Presentation
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+
             });
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -120,7 +120,9 @@ namespace Sakany.Presentation
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("mypolicy", policy => policy.AllowAnyMethod().AllowAnyOrigin().AllowAnyHeader());
+                options.AddPolicy("mypolicy", policy => policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             });
 
 
@@ -135,7 +137,7 @@ namespace Sakany.Presentation
 
             app.UseCors("mypolicy");
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseAuthorization();
 
 

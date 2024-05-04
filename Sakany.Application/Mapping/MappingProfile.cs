@@ -13,8 +13,22 @@ namespace Sakany.Application.Mapping
     {
         public MappingProfile()
         {
+            //        TSource          TDestination
             CreateMap<RegisterUserDTO, ApplicationUser>();
             CreateMap<ApplicationUser, LoginUserDTO>();
+
+            CreateMap<EditUserProfileDTO, ApplicationUser>();
+            CreateMap<ApplicationUser, EditUserProfileDTO>();
+            CreateMap<ApplicationUser, ApplicationUser>()
+            .ForMember(dest => dest.SecondPhoneNumber, opt => opt.MapFrom(src => src.SecondPhoneNumber))
+            .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.Age))
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
+            .ForMember(dest => dest.MaritalStatus, opt => opt.MapFrom(src => src.MaritalStatus))
+            .ForMember(dest => dest.Education, opt => opt.MapFrom(src => src.Education))
+            .ForMember(dest => dest.Employment, opt => opt.MapFrom(src => src.Employment))
+            .ForMember(dest => dest.Job, opt => opt.MapFrom(src => src.Job));
+            
+
         }
     }
 }

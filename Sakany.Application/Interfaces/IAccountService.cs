@@ -13,5 +13,8 @@ namespace Sakany.Application.Interfaces
     {
         public Task<IdentityResult> Register(RegisterUserDTO registerUserDTO);
         public Task<dynamic> Login(LoginUserDTO userDTO);
+        public Task<EditUserProfileDTO> EditUserProfile(EditUserProfileDTO editUserProfileDTO, string userId);
+        public Task<EditUserProfileDTO?> GetUserProfile(string UserName);
+
     }
 }
