@@ -78,7 +78,8 @@ namespace Sakany.Infrastructure.Repositories
         ///
         public async Task<dynamic> Login(LoginUserDTO userDTO)
         {
-            ApplicationUser UserDb = await userManager.FindByNameAsync(userDTO.UserName);
+            //ApplicationUser UserDb = await userManager.FindByNameAsync(userDTO.UserName);
+            ApplicationUser UserDb = await userManager.FindByEmailAsync(userDTO.Email);
             if (UserDb != null)
             {
                 bool found = await userManager.CheckPasswordAsync(UserDb, userDTO.Password);
@@ -119,7 +120,7 @@ namespace Sakany.Infrastructure.Repositories
                         Expired = MyToken.ValidTo
                     });
                 }
-                return ("Wrong Password");
+                return null;
             }
             return null;
         }

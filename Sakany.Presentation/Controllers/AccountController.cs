@@ -25,22 +25,37 @@ namespace Sakany.Presentation.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterUserDTO registerUserDTO)
         {
+            var response = new CustomResponseDTO();
 
-            if (registerUserDTO != null && ModelState.IsValid)
+            if (registerUserDTO == null)
             {
+                response.Success = false;
+                response.Message = "User data is null.";
+                return BadRequest(response);
+            }
 
-                //add role
-
+            if (ModelState.IsValid)
+            {
                 IdentityResult result = await accountService.Register(registerUserDTO);
 
                 if (result.Succeeded)
                 {
-                    return Ok(result);
+                    response.Success = true;
+                    response.Message = "User registered successfully.";
+                    return Ok(response);
                 }
-                return BadRequest(result.Errors);
 
+                response.Success = false;
+                response.Errors = result.Errors.Select(error => error.Description).ToList();
+                return BadRequest(response);
             }
-            return BadRequest(ModelState);
+
+            response.Success = false;
+            response.Errors = ModelState.Values
+                .SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
+                .ToList();
+            response.Message = "Invalid model state.";
+            return BadRequest(response);
         }
 
 
@@ -50,17 +65,46 @@ namespace Sakany.Presentation.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUserDTO userDTO)
         {
-
             if (ModelState.IsValid)
             {
                 var res = await accountService.Login(userDTO);
                 if (res != null)
                 {
-                    return Ok(res);
+                    var customResponse = new CustomResponseDTO
+                    {
+                        Success = true,
+                        Message = "Login successful",
+                        Data = res 
+                    };
+
+                    return Ok(customResponse);
                 }
-                return Unauthorized();
+                else
+                {
+                    var unauthorizedResponse = new CustomResponseDTO
+                    {
+                        Success = false,
+                        Message = "Invalid UserName or Password",
+                        Errors = new List<string> { "Invalid credentials" },
+                        Data=null
+
+                    };
+
+                    return Unauthorized(unauthorizedResponse);
+                }
             }
-            return BadRequest(ModelState);
+            else
+            {
+                var badRequestResponse = new CustomResponseDTO
+                {
+                    Success = false,
+                    Message = "Validation failed",
+                    Errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList(),
+                    Data = null
+                };
+
+                return BadRequest(badRequestResponse);
+            }
         }
 
     }
