@@ -9,5 +9,6 @@ namespace Sakany.Core.Entities
 {
     public class ApplicationUser : IdentityUser
     {
+        public string Name { get; set; }
     }
 }

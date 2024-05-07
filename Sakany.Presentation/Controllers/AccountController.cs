@@ -36,21 +36,31 @@ namespace Sakany.Presentation.Controllers
 
             if (ModelState.IsValid)
             {
-                IdentityResult result = await accountService.Register(registerUserDTO);
-
-                if (result.Succeeded)
+                IdentityResult? result = await accountService.Register(registerUserDTO);
+                if (result != null)
                 {
-                    response.Success = true;
-                    response.Message = "User registered successfully.";
-                    return Ok(response);
-                }
+                    if (result.Succeeded)
+                    {
+                        response.Success = true;
+                        response.Message = "User registered successfully.";
+                        response.Data = null;
+                        return Ok(response);
+                    }
 
+                    response.Success = false;
+                    response.Data = null;
+                    response.Errors = result.Errors.Select(error => error.Description).ToList();
+                    return BadRequest(response);
+                }
                 response.Success = false;
-                response.Errors = result.Errors.Select(error => error.Description).ToList();
+                response.Message = "Email already exist.";
+                response.Data = null;
                 return BadRequest(response);
+
             }
 
             response.Success = false;
+            response.Data = null;
             response.Errors = ModelState.Values
                 .SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
                 .ToList();
@@ -87,7 +97,6 @@ namespace Sakany.Presentation.Controllers
                         Message = "Invalid UserName or Password",
                         Errors = new List<string> { "Invalid credentials" },
                         Data=null
-
                     };
 
                     return Unauthorized(unauthorizedResponse);

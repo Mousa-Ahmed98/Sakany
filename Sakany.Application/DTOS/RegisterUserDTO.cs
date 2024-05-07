@@ -12,7 +12,7 @@ namespace Sakany.Application.DTOS
     {
 
         [Required(ErrorMessage = "Please Enter User Name")]
-        public string UserName { get; set; }
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "Please Enter Password")]
         [DataType(DataType.Password)]
