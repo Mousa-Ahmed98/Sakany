@@ -12,8 +12,8 @@ using Sakany.Infrastructure;
 namespace Sakany.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240429174641_account2")]
-    partial class account2
+    [Migration("20240503151254_ss")]
+    partial class ss
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
