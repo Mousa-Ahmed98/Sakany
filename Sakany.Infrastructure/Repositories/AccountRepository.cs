@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,12 +21,18 @@ namespace Sakany.Infrastructure.Repositories
         private UserManager<ApplicationUser> userManager;
         private IConfiguration configuration;
         private RoleManager<IdentityRole> RoleManager;
+        private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public AccountRepository(UserManager<ApplicationUser> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
+
+        public AccountRepository(UserManager<ApplicationUser> userManager, IConfiguration configuration,
+            RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext, IMapper mapper)
         {
             this.userManager = userManager;
             this.configuration = configuration;
             this.RoleManager = roleManager;
+            this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         public async Task<IdentityResult> Register(ApplicationUser user , RegisterUserDTO registerUserDTO)
@@ -110,7 +117,7 @@ namespace Sakany.Infrastructure.Repositories
                     List<Claim> claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, UserDb.Name));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, UserDb.Id));
-                    claims.Add(new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+                    //claims.Add(new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
 
                     var roles = await userManager.GetRolesAsync(UserDb);
 
@@ -121,13 +128,16 @@ namespace Sakany.Infrastructure.Repositories
 
                     //security
 
-                    var SignKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("asjiohwvwoihfwvbuvvdiKDEKDEWJAeDEdic237732JFE2343£R3je£"));
+                    var SignKey = new SymmetricSecurityKey(Encoding
+                        
+                        .UTF8.GetBytes("asjiohwvwoihfwvbuvvdiKDEKDEWJAeDEdic237732JFE2343£R3je£"));
 
-                    SigningCredentials signingCredentials = new SigningCredentials(SignKey, SecurityAlgorithms.HmacSha256);
+                    SigningCredentials signingCredentials = new SigningCredentials(SignKey,
+                        SecurityAlgorithms.HmacSha256);
 
                     JwtSecurityToken MyToken = new JwtSecurityToken(
-                        issuer: configuration["JWT,ValidIss"],
-                        audience: configuration["JWT,ValidAud"],
+                        issuer: "http://localhost:5019/",
+                        audience: "http://localhost:4200",
                         expires: DateTime.Now.AddHours(3),
                         claims: claims,
                         signingCredentials: signingCredentials
@@ -144,5 +154,21 @@ namespace Sakany.Infrastructure.Repositories
             return null;
         }
 
+        public async Task<ApplicationUser> EditUserProfile(ApplicationUser applicationUser)
+        {
+            var user = await userManager.FindByIdAsync(applicationUser.Id);
+            Console.WriteLine(applicationUser.Id);
+            if(user != null)
+            {
+                user = user.ExteractInfo(applicationUser);
+                IdentityResult identityResult = await userManager.UpdateAsync(user);
+            }
+            return user!;
+        }
+
+        public async Task<ApplicationUser?> GetUserProfile(string UserName)
+        {
+            return await userManager.FindByNameAsync(UserName);
+        }
     }
 }
