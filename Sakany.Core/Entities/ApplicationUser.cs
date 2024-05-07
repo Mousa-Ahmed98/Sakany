@@ -10,6 +10,9 @@ namespace Sakany.Core.Entities
 {
     public class ApplicationUser : IdentityUser
     {
+
+        public string Name { get; set; }
+
         public string? SecondPhoneNumber { get; set; }
         public int? Age { get; set; }
         public Gender? Gender { get; set; }

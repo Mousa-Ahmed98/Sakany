@@ -38,26 +38,45 @@ namespace Sakany.Infrastructure.Repositories
         public async Task<IdentityResult> Register(ApplicationUser user , RegisterUserDTO registerUserDTO)
         {
 
-            IdentityResult result = await userManager.CreateAsync(user , registerUserDTO.Password);
-
-            if (result.Succeeded)
+            ApplicationUser UserDb = await userManager.FindByEmailAsync(registerUserDTO.Email);
+            if (UserDb == null)
             {
-                //addrole
-                AddRole();
-                IdentityResult ResultRole = new IdentityResult();
-                try
-                {
-                    ResultRole = await userManager.AddToRoleAsync(user, registerUserDTO.Role);
-                }
-                catch (Exception e)
-                {
-                    //default is customer
-                    ResultRole = await userManager.AddToRoleAsync(user, "customer");
-                }
-            }
-                return result;
-        }
+                user.UserName = GenerateUsernameFromEmail(registerUserDTO.Email);
+                 IdentityResult result = await userManager.CreateAsync(user, registerUserDTO.Password);
 
+                if (result.Succeeded)
+                {
+                    //addrole
+                    AddRole();
+                    IdentityResult ResultRole = new IdentityResult();
+                    try
+                    {
+                        ResultRole = await userManager.AddToRoleAsync(user, registerUserDTO.Role);
+                    }
+                    catch (Exception e)
+                    {
+                        //default is customer
+                        ResultRole = await userManager.AddToRoleAsync(user, "customer");
+                    }
+                }
+                return result;
+            }
+            return null;
+        }
+        private string GenerateUsernameFromEmail(string email)
+        {
+            int atIndex = email.IndexOf('@');
+            string username;
+            if (atIndex >= 0)
+            {
+                username = email.Substring(0, atIndex);
+            }
+            else
+            {
+                username = email;
+            }
+            return username;
+        }
         bool AddRole()
         {
 
@@ -96,7 +115,7 @@ namespace Sakany.Infrastructure.Repositories
 
                     //create claims
                     List<Claim> claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.Name, UserDb.UserName));
+                    claims.Add(new Claim(ClaimTypes.Name, UserDb.Name));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, UserDb.Id));
                     //claims.Add(new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
 
