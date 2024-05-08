@@ -18,7 +18,7 @@ namespace Sakany.Presentation
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             //Configurations
@@ -126,6 +126,27 @@ namespace Sakany.Presentation
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            //auto update Database 
+            #region MigrateAsync
+
+            //use 'using' to dispose all resources After Finish
+            using var scope = app.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var dbcontext = services.GetRequiredService<ApplicationDbContext>();
+            //Ask CLR  to creating  object form DbContext 'StoreContext' Explicitly 
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+            try
+            {
+                await dbcontext.Database.MigrateAsync();
+                await SakanyDataSeeding.AddDateSeeding(dbcontext);
+            }
+            catch (Exception ex)
+            {
+                var logger = loggerFactory.CreateLogger<Program>();
+                logger.LogError(ex, "Error Has been occured during update database");
+            }
+            #endregion
 
             app.UseCors("mypolicy");
 
