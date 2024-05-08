@@ -109,6 +109,9 @@ namespace Sakany.Presentation
 
             builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
             builder.Services.AddScoped<IGovernorateServices, GovernorateServices>();
+            
+            builder.Services.AddScoped<ICityRepository, CityRepository>();
+            builder.Services.AddScoped<ICityServices, CityServices>();
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 

@@ -31,6 +31,9 @@ namespace Sakany.Application.Mapping
 
             CreateMap<Governorate, GovernorateDTO>(); // Mapping between Governorate and GovernorateDTO
             CreateMap<GovernorateDTO, Governorate>(); // Mapping between GovernorateDTO and Governorate
+
+            CreateMap<City, CityDTO>(); // Mapping between City and CityDTO
+            CreateMap<CityDTO, City>(); // Mapping between CityDTO and City
         }
     }
 }
