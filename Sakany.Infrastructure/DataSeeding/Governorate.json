@@ -1,0 +1,134 @@
+[
+    {
+        "GovernorateID": 3,
+        "Name": "Giza"
+    },
+    {
+        "GovernorateID": 28,
+        "Name": "Abu Simbel"
+    },
+    {
+        "GovernorateID": 22,
+        "Name": "Aswan"
+    },
+    {
+        "GovernorateID": 18,
+        "Name": "Assuit"
+    },
+    {
+        "GovernorateID": 1,
+        "Name": "Alex"
+    },
+    {
+        "GovernorateID": 5,
+        "Name": "Ismailia"
+    },
+    {
+        "GovernorateID": 21,
+        "Name": "Luxor"
+    },
+    {
+        "GovernorateID": 34,
+        "Name": "Red Sea"
+    },
+    {
+        "GovernorateID": 12,
+        "Name": "Behaira"
+    },
+    {
+        "GovernorateID": 11,
+        "Name": "Daqahliya"
+    },
+    {
+        "GovernorateID": 27,
+        "Name": "North Sinai"
+    },
+    {
+        "GovernorateID": 25,
+        "Name": "North Coast"
+    },
+    {
+        "GovernorateID": 30,
+        "Name": "Salloum"
+    },
+    {
+        "GovernorateID": 6,
+        "Name": "Suez"
+    },
+    {
+        "GovernorateID": 9,
+        "Name": "Sharqiya"
+    },
+    {
+        "GovernorateID": 10,
+        "Name": "Gharbiya"
+    },
+    {
+        "GovernorateID": 15,
+        "Name": "Fayoum"
+    },
+    {
+        "GovernorateID": 2,
+        "Name": "Cairo"
+    },
+    {
+        "GovernorateID": 7,
+        "Name": "Qaliyobiya"
+    },
+    {
+        "GovernorateID": 8,
+        "Name": "MinouFiya"
+    },
+    {
+        "GovernorateID": 17,
+        "Name": "Miniya"
+    },
+    {
+        "GovernorateID": 32,
+        "Name": "Oases"
+    },
+    {
+        "GovernorateID": 26,
+        "Name": "New Valley"
+    },
+    {
+        "GovernorateID": 16,
+        "Name": "Beni Suef"
+    },
+    {
+        "GovernorateID": 4,
+        "Name": "Port Said"
+    },
+    {
+        "GovernorateID": 24,
+        "Name": "South Sinai"
+    },
+    {
+        "GovernorateID": 31,
+        "Name": "Halayeb & Shlateen"
+    },
+    {
+        "GovernorateID": 13,
+        "Name": "Damietta"
+    },
+    {
+        "GovernorateID": 19,
+        "Name": "Sohag"
+    },
+    {
+        "GovernorateID": 20,
+        "Name": "Qena"
+    },
+    {
+        "GovernorateID": 14,
+        "Name": "Kafr El Sheikh"
+    },
+    {
+        "GovernorateID": 29,
+        "Name": "Marsa Allam"
+    },
+    {
+        "GovernorateID": 33,
+        "Name": "Matruh"
+    }
+]

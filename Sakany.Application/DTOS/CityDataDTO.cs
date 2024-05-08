@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Sakany.Application.DTOS
 {
-    public class LoginUserDTO
+    public class CityDataDTO
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public int GovernorateID { get; set; }
+        public List<string> Cities { get; set; }
     }
 }
