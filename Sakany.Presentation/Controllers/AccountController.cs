@@ -124,7 +124,7 @@ namespace Sakany.Presentation.Controllers
 
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("Edit profile")]
+        [HttpPost("EditProfile")]
         public async Task<IActionResult> EditProfile(EditUserProfileDTO editUserProfileDTO)
         {
             if (ModelState.IsValid)
@@ -140,12 +140,16 @@ namespace Sakany.Presentation.Controllers
             }
         }
 
-        [HttpGet("Get user")]
-        public async Task<IActionResult> GetUserData(string UserName)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetUser")]
+        public async Task<IActionResult> GetUserData()
         {
-            if (!UserName.IsNullOrEmpty())
+            var UserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Console.WriteLine("UserId");
+            Console.WriteLine(UserId);
+            if (!UserId.IsNullOrEmpty())
             {
-                EditUserProfileDTO? editUserProfileDTO = await accountService.GetUserProfile(UserName);
+                EditUserProfileDTO? editUserProfileDTO = await accountService.GetUserProfile(UserId!);
                 if (editUserProfileDTO != null)
                 {
                     return Ok(editUserProfileDTO);
