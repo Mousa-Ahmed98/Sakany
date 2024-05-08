@@ -152,7 +152,7 @@ namespace Sakany.Infrastructure.Repositories
                 return null;
             }
             return null;
-        }
+         }
 
         public async Task<ApplicationUser> EditUserProfile(ApplicationUser applicationUser)
         {

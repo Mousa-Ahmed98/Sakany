@@ -12,7 +12,7 @@ using Sakany.Application.Interfaces;
 using Sakany.Infrastructure.Repositories;
 using Sakany.Application.Mapping;
 using AutoMapper;
-using Sakany.Application;
+using Sakany.Application.Services;
 
 namespace Sakany.Presentation
 {
@@ -107,6 +107,9 @@ namespace Sakany.Presentation
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
+            builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
+            builder.Services.AddScoped<IGovernorateServices, GovernorateServices>();
+
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
@@ -134,7 +137,7 @@ namespace Sakany.Presentation
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
             var dbcontext = services.GetRequiredService<ApplicationDbContext>();
-            //Ask CLR  to creating  object form DbContext 'StoreContext' Explicitly 
+            //Ask CLR  to creating  object form DbContext 'ApplicationDbContext' Explicitly 
             var loggerFactory = services.GetRequiredService<ILoggerFactory>();
             try
             {
