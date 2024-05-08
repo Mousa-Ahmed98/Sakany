@@ -15,49 +15,87 @@ namespace Sakany.Presentation.Controllers
         {
             this.governorateServices = governorateServices;
         }
-
         [HttpGet]
-        public ActionResult GetAllGovernorate()
+        public IActionResult GetAllGovernorate()
         {
-            List<GovernorateDTO> governorateDTOs = governorateServices.GetAll();
-
-            CustomResponseDTO customResponseDTO = new CustomResponseDTO()
+            try
             {
-                Success = true,
-                Data = governorateDTOs,
-                Message = "Data Successfully retrieved",
-                Errors = null
-            };
+                List<GovernorateDTO> governorateDTOs = governorateServices.GetAll();
 
-            return Ok(customResponseDTO);
-        }
-        [HttpGet("{id:int}")]
-        public ActionResult GetGovernorateById(int id)
-        {
-            GovernorateDTO governorateDTO = governorateServices.GetById(id);
+                if (governorateDTOs == null || governorateDTOs.Count == 0)
+                {
+                    var customResponse = new CustomResponseDTO
+                    {
+                        Success = true,
+                        Message = "No governorates found",
+                        Data = null,
+                        Errors = null
+                    };
+                    return NotFound(customResponse);
+                }
 
-            if (governorateDTO == null)
+                var customResponseWithData = new CustomResponseDTO
+                {
+                    Success = true,
+                    Message = "Governorates successfully retrieved",
+                    Data = governorateDTOs,
+                    Errors = null
+                };
+                return Ok(customResponseWithData);
+            }
+            catch (Exception ex)
             {
-                CustomResponseDTO errorResponse = new CustomResponseDTO()
+                var customErrorResponse = new CustomResponseDTO
                 {
                     Success = false,
+                    Message = "An error occurred while retrieving governorates",
                     Data = null,
-                    Message = "Governorate with ID " + id + " not found",
-                    Errors = new List<string> { "Governorate not found" }
+                    Errors = new List<string> { ex.Message }
                 };
-
-                return NotFound(errorResponse);
+                return BadRequest(customErrorResponse);
             }
+        }
 
-            CustomResponseDTO customResponseDTO = new CustomResponseDTO()
+
+        [HttpGet("{id:int}")]
+        public IActionResult GetGovernorateById(int id)
+        {
+            try
             {
-                Success = true,
-                Data = governorateDTO,
-                Message = "Data Successfully retrieved",
-                Errors = null
-            };
+                GovernorateDTO governorateDTO = governorateServices.GetById(id);
 
-            return Ok(customResponseDTO);
+                if (governorateDTO == null)
+                {
+                    var errorResponse = new CustomResponseDTO
+                    {
+                        Success = false,
+                        Message = $"Governorate with ID {id} not found",
+                        Data = null,
+                        Errors = null
+                    };
+                    return NotFound(errorResponse);
+                }
+
+                var customResponseDTO = new CustomResponseDTO
+                {
+                    Success = true,
+                    Message = "Governorate successfully retrieved",
+                    Data = governorateDTO,
+                    Errors = null
+                };
+                return Ok(customResponseDTO);
+            }
+            catch (Exception ex)
+            {
+                var customErrorResponse = new CustomResponseDTO
+                {
+                    Success = false,
+                    Message = "An error occurred while retrieving the governorate",
+                    Data = null,
+                    Errors = new List<string> { ex.Message }
+                };
+                return BadRequest(customErrorResponse);
+            }
         }
 
 

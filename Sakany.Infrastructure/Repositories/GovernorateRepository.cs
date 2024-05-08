@@ -19,12 +19,14 @@ namespace Sakany.Infrastructure.Repositories
 
         public List<Governorate> GetAll()
         {
-            return dbContext.Set<Governorate>().ToList();
+            return dbContext.Set<Governorate>()
+                .ToList();
         }
 
         public Governorate GetById(int governorateId)
         {
-            Governorate? governorate= dbContext.Set<Governorate>().FirstOrDefault(g => g.GovernorateID == governorateId);
+            Governorate? governorate= dbContext.Set<Governorate>()
+                .FirstOrDefault(g => g.GovernorateID == governorateId);
             return governorate;
         }
     }
