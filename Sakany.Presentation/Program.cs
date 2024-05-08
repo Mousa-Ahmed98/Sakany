@@ -12,13 +12,13 @@ using Sakany.Application.Interfaces;
 using Sakany.Infrastructure.Repositories;
 using Sakany.Application.Mapping;
 using AutoMapper;
-using Sakany.Application;
+using Sakany.Application.Services;
 
 namespace Sakany.Presentation
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             //Configurations
@@ -107,6 +107,9 @@ namespace Sakany.Presentation
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
+            builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
+            builder.Services.AddScoped<IGovernorateServices, GovernorateServices>();
+
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
@@ -126,6 +129,27 @@ namespace Sakany.Presentation
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            //auto update Database 
+            #region MigrateAsync
+
+            //use 'using' to dispose all resources After Finish
+            using var scope = app.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var dbcontext = services.GetRequiredService<ApplicationDbContext>();
+            //Ask CLR  to creating  object form DbContext 'ApplicationDbContext' Explicitly 
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+            try
+            {
+                await dbcontext.Database.MigrateAsync();
+                await SakanyDataSeeding.AddDateSeeding(dbcontext);
+            }
+            catch (Exception ex)
+            {
+                var logger = loggerFactory.CreateLogger<Program>();
+                logger.LogError(ex, "Error Has been occured during update database");
+            }
+            #endregion
 
             app.UseCors("mypolicy");
 

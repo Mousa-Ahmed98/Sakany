@@ -14,8 +14,10 @@ namespace Sakany.Infrastructure
         }
 
         public  DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public  DbSet<City> Cities { get; set; }
+        public  DbSet<Governorate> Governorates { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {
             
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
