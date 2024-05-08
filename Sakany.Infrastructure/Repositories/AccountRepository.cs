@@ -146,9 +146,9 @@ namespace Sakany.Infrastructure.Repositories
             return user!;
         }
 
-        public async Task<ApplicationUser?> GetUserProfile(string UserName)
+        public async Task<ApplicationUser?> GetUserProfile(string UserId)
         {
-            return await userManager.FindByNameAsync(UserName);
+            return await userManager.FindByIdAsync(UserId);
         }
     }
 }

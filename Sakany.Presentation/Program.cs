@@ -60,7 +60,7 @@ namespace Sakany.Presentation
 
 
             #region Swagger REgion
-            /*builder.Services.AddSwaggerGen(swagger =>
+            builder.Services.AddSwaggerGen(swagger =>
             {
                 //This is to generate the Default UI of Swagger Documentation    
                 swagger.SwaggerDoc("v1", new OpenApiInfo
@@ -93,7 +93,7 @@ namespace Sakany.Presentation
                     new string[] {}
                     }
                     });
-            });*/
+            });
             #endregion
             //----------------------------------------------------------
 

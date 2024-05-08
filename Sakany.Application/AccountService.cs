@@ -49,9 +49,9 @@ namespace Sakany.Application
             return editUserProfileDTO;
         }
 
-        public async Task<EditUserProfileDTO?> GetUserProfile(string UserName)
+        public async Task<EditUserProfileDTO?> GetUserProfile(string UserId)
         {
-            ApplicationUser? applicationUser = await AccountRepository.GetUserProfile(UserName);
+            ApplicationUser? applicationUser = await AccountRepository.GetUserProfile(UserId);
             return mapper.Map<EditUserProfileDTO>(applicationUser);
         }
     }
