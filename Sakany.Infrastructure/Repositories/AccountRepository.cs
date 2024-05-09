@@ -16,7 +16,7 @@ using Sakany.Core.Entities;
 
 namespace Sakany.Infrastructure.Repositories
 {
-    public class AccountRepository: IAccountRepository
+    public class AccountRepository : IAccountRepository
     {
         private UserManager<ApplicationUser> userManager;
         private IConfiguration configuration;
@@ -35,14 +35,14 @@ namespace Sakany.Infrastructure.Repositories
             this.mapper = mapper;
         }
 
-        public async Task<IdentityResult> Register(ApplicationUser user , RegisterUserDTO registerUserDTO)
+        public async Task<IdentityResult> Register(ApplicationUser user, RegisterUserDTO registerUserDTO)
         {
 
             ApplicationUser UserDb = await userManager.FindByEmailAsync(registerUserDTO.Email);
             if (UserDb == null)
             {
                 user.UserName = GenerateUsernameFromEmail(registerUserDTO.Email);
-                 IdentityResult result = await userManager.CreateAsync(user, registerUserDTO.Password);
+                IdentityResult result = await userManager.CreateAsync(user, registerUserDTO.Password);
 
                 if (result.Succeeded)
                 {
@@ -129,7 +129,7 @@ namespace Sakany.Infrastructure.Repositories
                     //security
 
                     var SignKey = new SymmetricSecurityKey(Encoding
-                        
+
                         .UTF8.GetBytes("asjiohwvwoihfwvbuvvdiKDEKDEWJAeDEdic237732JFE2343£R3je£"));
 
                     SigningCredentials signingCredentials = new SigningCredentials(SignKey,
@@ -152,13 +152,13 @@ namespace Sakany.Infrastructure.Repositories
                 return null;
             }
             return null;
-         }
+        }
 
         public async Task<ApplicationUser> EditUserProfile(ApplicationUser applicationUser)
         {
             var user = await userManager.FindByIdAsync(applicationUser.Id);
             Console.WriteLine(applicationUser.Id);
-            if(user != null)
+            if (user != null)
             {
                 user = user.ExteractInfo(applicationUser);
                 IdentityResult identityResult = await userManager.UpdateAsync(user);
@@ -171,4 +171,6 @@ namespace Sakany.Infrastructure.Repositories
             return await userManager.FindByIdAsync(UserId);
         }
     }
+
+
 }

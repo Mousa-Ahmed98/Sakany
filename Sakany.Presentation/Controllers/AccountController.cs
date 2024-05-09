@@ -18,10 +18,12 @@ namespace Sakany.Presentation.Controllers
     public class AccountController : ControllerBase
     {
         private IAccountService accountService;
+        private UserManager<ApplicationUser> userManager;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, UserManager<ApplicationUser> userManager)
         {
             this.accountService = accountService;
+            this.userManager = userManager;
         }
 
         [HttpPost("register")]
@@ -157,6 +159,29 @@ namespace Sakany.Presentation.Controllers
                 return BadRequest("No data was found");
             }
            return BadRequest(ModelState);
+        }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDTO model)
+        {
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var changePasswordResult = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+            if (changePasswordResult.Succeeded)
+            {
+                return Ok("Password changed successfully");
+            }
+            else
+            {
+                return BadRequest(changePasswordResult.Errors);
+            }
         }
 
     }
