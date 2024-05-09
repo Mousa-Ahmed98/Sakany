@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Sakany.Core.Entities;
 using AutoMapper;
 
-namespace Sakany.Application
+namespace Sakany.Application.Services
 {
     public class AccountService : IAccountService
     {
@@ -43,15 +43,15 @@ namespace Sakany.Application
         {
             ApplicationUser user = mapper.Map<ApplicationUser>(editUserProfileDTO);
             user.Id = userId;
-            
+
             user = await AccountRepository.EditUserProfile(user);
             editUserProfileDTO = mapper.Map<EditUserProfileDTO>(user);
             return editUserProfileDTO;
         }
 
-        public async Task<EditUserProfileDTO?> GetUserProfile(string UserName)
+        public async Task<EditUserProfileDTO?> GetUserProfile(string UserId)
         {
-            ApplicationUser? applicationUser = await AccountRepository.GetUserProfile(UserName);
+            ApplicationUser? applicationUser = await AccountRepository.GetUserProfile(UserId);
             return mapper.Map<EditUserProfileDTO>(applicationUser);
         }
     }

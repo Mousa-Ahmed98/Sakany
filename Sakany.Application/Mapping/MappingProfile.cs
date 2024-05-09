@@ -27,8 +27,13 @@ namespace Sakany.Application.Mapping
             .ForMember(dest => dest.Education, opt => opt.MapFrom(src => src.Education))
             .ForMember(dest => dest.Employment, opt => opt.MapFrom(src => src.Employment))
             .ForMember(dest => dest.Job, opt => opt.MapFrom(src => src.Job));
-            
 
+
+            CreateMap<Governorate, GovernorateDTO>(); // Mapping between Governorate and GovernorateDTO
+            CreateMap<GovernorateDTO, Governorate>(); // Mapping between GovernorateDTO and Governorate
+
+            CreateMap<City, CityDTO>(); // Mapping between City and CityDTO
+            CreateMap<CityDTO, City>(); // Mapping between CityDTO and City
         }
     }
 }

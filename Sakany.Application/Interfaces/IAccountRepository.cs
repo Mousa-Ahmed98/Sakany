@@ -15,6 +15,6 @@ namespace Sakany.Application.Interfaces
         public Task<dynamic> Login(LoginUserDTO userDTO);
 
         public Task<ApplicationUser> EditUserProfile(ApplicationUser applicationUser);
-        public Task<ApplicationUser?> GetUserProfile(string UserName);
+        public Task<ApplicationUser?> GetUserProfile(string UserId);
     }
 }
