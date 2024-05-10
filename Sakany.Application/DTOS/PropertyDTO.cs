@@ -9,6 +9,7 @@ namespace Sakany.Application.DTOS
 {
     public class PropertyDTO
     {
+      public  List<string> featsures {  get; set; }= new List<string>();
         public string Title { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
@@ -16,7 +17,7 @@ namespace Sakany.Application.DTOS
         public int RoomsNumber { get; set; }
         public decimal Price { get; set; }
         public decimal Area { get; set; }
-        public string Governorate { get; set; }
+        public int Governorate { get; set; }
         public string City { get; set; }
         public string Age { get; set; }
         public int BathroomNumber { get; set; }
