@@ -113,6 +113,13 @@ namespace Sakany.Presentation
             builder.Services.AddScoped<ICityRepository, CityRepository>();
             builder.Services.AddScoped<ICityServices, CityServices>();
 
+            builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
+            builder.Services.AddScoped<IPropertyServices, PropertyServices>();
+
+            builder.Services.AddScoped<IImageRepository, ImageRepository>();
+            builder.Services.AddScoped<IImageServices, ImageServices>();
+
+
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
@@ -122,7 +129,6 @@ namespace Sakany.Presentation
                 .AllowAnyMethod()
                 .AllowAnyHeader());
             });
-
 
             var app = builder.Build();
 

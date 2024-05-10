@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sakany.Core.Entities
 {
-    internal class PropertyFeatures
+    public class PropertyFeatures
     {
         public int Id { get; set; }
         public int PropertyId { get; set; }

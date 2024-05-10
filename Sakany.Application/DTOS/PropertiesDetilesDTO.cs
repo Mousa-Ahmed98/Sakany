@@ -20,6 +20,5 @@ namespace Sakany.Application.DTOS
         public int BathroomNumber { get; set; }
         public List<string> Images { get; set; }
 
-
     }
 }

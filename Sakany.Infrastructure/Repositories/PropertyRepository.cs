@@ -18,7 +18,7 @@ namespace Sakany.Infrastructure.Repositories
         {
             this.dbContext = dbContext;
         }
-        public async Task<Properties> Add(Properties property)
+        public async Task<Properties> AddAsync(Properties property)
         {
            await dbContext.Set<Properties>().AddAsync(property);
             dbContext.SaveChanges();
@@ -39,12 +39,13 @@ namespace Sakany.Infrastructure.Repositories
             }
         }
 
-        public async Task<List<Properties>> GetAll()
+        public async Task<List<Properties>> GetAllAsync()
         {
-            return  await dbContext.Set<Properties>().ToListAsync();
+            return  await dbContext.Set<Properties>()
+                .ToListAsync();
         }
 
-        public async Task<Properties> GetById(int propertyID)
+        public async Task<Properties> GetByIdAsync(int propertyID)
         {
             Properties? property= await dbContext.Set<Properties>()
                 .FirstOrDefaultAsync(p=>p.Id==propertyID);

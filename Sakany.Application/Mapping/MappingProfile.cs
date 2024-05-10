@@ -29,11 +29,15 @@ namespace Sakany.Application.Mapping
             .ForMember(dest => dest.Job, opt => opt.MapFrom(src => src.Job));
 
 
-            CreateMap<Governorate, GovernorateDTO>(); // Mapping between Governorate and GovernorateDTO
-            CreateMap<GovernorateDTO, Governorate>(); // Mapping between GovernorateDTO and Governorate
+            CreateMap<Governorate, GovernorateDTO>(); 
+            CreateMap<GovernorateDTO, Governorate>(); 
 
-            CreateMap<City, CityDTO>(); // Mapping between City and CityDTO
-            CreateMap<CityDTO, City>(); // Mapping between CityDTO and City
+            CreateMap<City, CityDTO>(); 
+            CreateMap<CityDTO, City>();
+
+            CreateMap<Properties, PropertyDTO>();
+            CreateMap<PropertyDTO,Properties>();
+
         }
     }
 }
