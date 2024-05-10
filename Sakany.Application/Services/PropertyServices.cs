@@ -30,8 +30,26 @@ namespace Sakany.Application.Services
         }
         public async Task<PropertiesDetilesDTO> Add(PropertyDTO propertyDTO)
         {
-            Properties property=mapper.Map<Properties>(propertyDTO);
-           Properties properties =await propertyRepository.AddAsync(property);
+            //Properties property = mapper.Map<Properties>(propertyDTO);
+            Properties property = new Properties
+            {
+                Title = propertyDTO.Title,
+                Description = propertyDTO.Description,
+                Status = propertyDTO.Status,
+                Type = propertyDTO.Type,
+                RoomsNumber = propertyDTO.RoomsNumber,
+                Price = (float)propertyDTO.Price,
+                Area = (float)propertyDTO.Area,
+                BathroomNumber = propertyDTO.BathroomNumber,
+                Age = Convert.ToSingle(propertyDTO.Age), 
+                City = propertyDTO.City,
+                Name = propertyDTO.Name,
+                UserName = propertyDTO.UserName,
+                Phone = propertyDTO.Phone,
+                Email = propertyDTO.Email
+            };
+
+            Properties properties =await propertyRepository.AddAsync(property);
             PropertiesDetilesDTO propertiesDetilesDTO = await MapPropertyToDTOAsync(properties);
             return propertiesDetilesDTO;
         }
