@@ -10,7 +10,7 @@ namespace Sakany.Application.Interfaces
 {
     public interface IPropertyServices
     {
-        public Task<PropertiesDetilesDTO> Add(Properties property);
+        public Task<PropertiesDetilesDTO> Add(PropertyDTO property);
         public void Update(Properties property);
         public bool Delete(Properties property);
         public Task<PropertiesDetilesDTO> GetById(int propertyID);
