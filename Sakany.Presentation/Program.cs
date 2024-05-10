@@ -103,10 +103,10 @@ namespace Sakany.Presentation
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
+            //Start register services (:
             builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
             builder.Services.AddScoped<IGovernorateServices, GovernorateServices>();
             
@@ -119,10 +119,14 @@ namespace Sakany.Presentation
             builder.Services.AddScoped<IImageRepository, ImageRepository>();
             builder.Services.AddScoped<IImageServices, ImageServices>();
 
+            builder.Services.AddScoped<IPropertyFeaturesRepository, PropertyFeaturesRepository>();
+            builder.Services.AddScoped<IPropertyFeaturesServices, PropertyFeaturesServices>();
+
+            //End register services (:
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-
+            
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("mypolicy", policy => policy.AllowAnyOrigin()

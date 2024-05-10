@@ -35,8 +35,8 @@ namespace Sakany.Application.Mapping
             CreateMap<City, CityDTO>(); 
             CreateMap<CityDTO, City>();
 
+            CreateMap<PropertyDTO, Properties>();
             CreateMap<Properties, PropertyDTO>();
-            CreateMap<PropertyDTO,Properties>();
 
         }
     }

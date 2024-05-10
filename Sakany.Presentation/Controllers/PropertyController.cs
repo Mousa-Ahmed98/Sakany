@@ -55,5 +55,12 @@ namespace YourNamespace.Controllers
                 Errors = null
             });
         }
+
+        [HttpPost("{id:int}")]
+        public async Task<ActionResult> AddImages(int id,IFormFile file)
+        {
+
+            return Ok();
+        }
     }
 }
