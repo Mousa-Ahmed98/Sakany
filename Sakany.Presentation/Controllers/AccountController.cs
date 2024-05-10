@@ -161,6 +161,7 @@ namespace Sakany.Presentation.Controllers
            return BadRequest(ModelState);
         }
 
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO model)
@@ -172,7 +173,7 @@ namespace Sakany.Presentation.Controllers
                 return NotFound("User not found");
             }
 
-            var changePasswordResult = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            var changePasswordResult = await accountService.ChangePassword(model ,user);
 
             if (changePasswordResult.Succeeded)
             {
@@ -183,6 +184,23 @@ namespace Sakany.Presentation.Controllers
                 return BadRequest(changePasswordResult.Errors);
             }
         }
+
+
+        //trying to use get user inherted from controller base
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[HttpPost("DisplayUser")]
+        //public async Task<IActionResult> DisplayUser()
+        //{
+        //    var user = await userManager.GetUserAsync(User);
+
+        //    if (user == null)
+        //    {
+        //        return NotFound("User not found");
+        //    }
+
+        //    return Ok(user);
+        //}
+
 
     }
 }
