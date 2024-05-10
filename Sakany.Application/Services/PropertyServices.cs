@@ -28,7 +28,7 @@ namespace Sakany.Application.Services
             this.imageRepository = imageRepository;
             this.mapper = mapper;
         }
-        public async Task<PropertiesDetilesDTO> Add(PropertyDTO propertyDTO)
+        public async Task<int> Add(PropertyDTO propertyDTO)
         {
             //Properties property = mapper.Map<Properties>(propertyDTO);
             Properties property = new Properties
@@ -41,21 +41,18 @@ namespace Sakany.Application.Services
                 Price = (float)propertyDTO.Price,
                 Area = (float)propertyDTO.Area,
                 BathroomNumber = propertyDTO.BathroomNumber,
-                Age = Convert.ToSingle(propertyDTO.Age), 
+                Age = Convert.ToSingle(propertyDTO.Age),
                 City = propertyDTO.City,
                 Name = propertyDTO.Name,
                 UserName = propertyDTO.UserName,
                 Phone = propertyDTO.Phone,
-                Email = propertyDTO.Email
+                Email = propertyDTO.Email,
+                GovernorateID =propertyDTO.Governorate
             };
 
             Properties properties =await propertyRepository.AddAsync(property);
-            PropertiesDetilesDTO propertiesDetilesDTO = await MapPropertyToDTOAsync(properties);
-            return propertiesDetilesDTO;
+            return properties.Id;
         }
-
-       
-
         public async Task<List<PropertiesDetilesDTO>> GetAll()
         {
             var ListProperties=await propertyRepository.GetAllAsync();
@@ -81,7 +78,7 @@ namespace Sakany.Application.Services
             throw new NotImplementedException();
         }
 
-        private async Task<PropertiesDetilesDTO> MapPropertyToDTOAsync(Properties properties)
+        public async Task<PropertiesDetilesDTO> MapPropertyToDTOAsync(Properties properties)
         {
             PropertiesDetilesDTO dto = new PropertiesDetilesDTO();
             if (properties != null)
@@ -96,7 +93,7 @@ namespace Sakany.Application.Services
                 dto.RoomsNumber = properties.RoomsNumber;
                 dto.BathroomNumber = properties.BathroomNumber;
                 //get name of governorate 
-                Governorate governorate = governorateRepository.GetById(properties.Id);
+                Governorate governorate = governorateRepository.GetById(properties.GovernorateID);
                 dto.Governorate = governorate.Name;
                 //get all images 
                 List<PropertyImage> propertyImages = await imageRepository.GetByPropertyIdAsync(properties.Id);

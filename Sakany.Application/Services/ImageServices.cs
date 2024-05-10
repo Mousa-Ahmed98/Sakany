@@ -1,4 +1,5 @@
-﻿using Sakany.Application.Interfaces;
+﻿using Sakany.Application.DTOS;
+using Sakany.Application.Interfaces;
 using Sakany.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ namespace Sakany.Application.Services
     public class ImageServices : IImageServices
     {
         private readonly IImageRepository imageRepository;
-
         public ImageServices(IImageRepository imageRepository)
         {
             this.imageRepository = imageRepository;
@@ -32,11 +32,10 @@ namespace Sakany.Application.Services
             throw new NotImplementedException();
         }
 
-        
-
         public void Update(PropertyImage propertyImage)
         {
             throw new NotImplementedException();
         }
     }
+
 }
