@@ -161,8 +161,8 @@ namespace Sakany.Presentation.Controllers
            return BadRequest(ModelState);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("change-password")]
-        [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO model)
         {
             var user = await userManager.GetUserAsync(User);
