@@ -173,7 +173,7 @@ namespace Sakany.Presentation.Controllers
                 return NotFound("User not found");
             }
 
-            var changePasswordResult = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            var changePasswordResult = await accountService.ChangePassword(model ,user);
 
             if (changePasswordResult.Succeeded)
             {
