@@ -187,19 +187,19 @@ namespace Sakany.Presentation.Controllers
 
 
         //trying to use get user inherted from controller base
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("DisplayUser")]
-        public async Task<IActionResult> DisplayUser()
-        {
-            var user = await userManager.GetUserAsync(User);
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[HttpPost("DisplayUser")]
+        //public async Task<IActionResult> DisplayUser()
+        //{
+        //    var user = await userManager.GetUserAsync(User);
 
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
+        //    if (user == null)
+        //    {
+        //        return NotFound("User not found");
+        //    }
 
-            return Ok(user);
-        }
+        //    return Ok(user);
+        //}
 
 
     }
