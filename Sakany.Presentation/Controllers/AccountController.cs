@@ -185,6 +185,51 @@ namespace Sakany.Presentation.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetUserInfo")] 
+        public async Task<ActionResult> GetInformationOfUserAsync()
+        {
+            var UserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!UserId.IsNullOrEmpty())
+            {
+                CustomDataOfUserDTO? customDataOfUserDTO = await accountService.GetCustomData(UserId!);
+                if (customDataOfUserDTO != null)
+                {
+                    var goodResponse = new CustomResponseDTO
+                    {
+                        Success = true,
+                        Message = " get data successfully",
+                        Errors = new List<string> { "Invalid credentials" },
+                        Data = new {
+                            name = customDataOfUserDTO.Name,
+                            email = customDataOfUserDTO.Email,
+                            userName = customDataOfUserDTO.UserName,
+                            phoneNumber = customDataOfUserDTO.PhoneNumber,
+                        }
+                    };
+                    return Ok(goodResponse);
+                }
+                var Response = new CustomResponseDTO
+                {
+                    Success = false,
+                    Message = "No data was found",
+                    Errors = new List<string> { "No User logened" },
+                    Data = null
+                };
+                return BadRequest(Response);
+            }
+            var badRequestResponse = new CustomResponseDTO
+            {
+                Success = false,
+                Message = "No User logened",
+                Errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList(),
+                Data = null
+            };
+            return BadRequest(badRequestResponse);
+
+
+        }
+
 
         //trying to use get user inherted from controller base
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
