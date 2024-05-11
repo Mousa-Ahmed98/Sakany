@@ -232,19 +232,21 @@ namespace Sakany.Presentation.Controllers
 
 
         //trying to use get user inherted from controller base
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpPost("DisplayUser")]
-        //public async Task<IActionResult> DisplayUser()
-        //{
-        //    var user = await userManager.GetUserAsync(User);
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("DisplayUser")]
+        public IActionResult DisplayUser()
+        {
+            var jwtToken = HttpContext.Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-        //    if (user == null)
-        //    {
-        //        return NotFound("User not found");
-        //    }
+            var user = userManager.GetUserAsync(User).Result;
 
-        //    return Ok(user);
-        //}
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(new { User = user, Token = jwtToken });
+        }
 
 
     }
