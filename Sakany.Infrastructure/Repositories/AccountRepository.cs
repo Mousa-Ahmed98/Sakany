@@ -174,6 +174,7 @@ namespace Sakany.Infrastructure.Repositories
 
         public async Task<IdentityResult> ChangePassword(ChangePasswordDTO model, ApplicationUser user)
         {
+
             return await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
 
         }
