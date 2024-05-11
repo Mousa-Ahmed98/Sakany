@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sakany.Application.DTOS;
@@ -30,7 +32,7 @@ namespace YourNamespace.Controllers
             this.imageServices = imageServices;
         }
 
-
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         public async Task<ActionResult> AddProperty(PropertyDTO propertyDTO)
         {
@@ -81,7 +83,7 @@ namespace YourNamespace.Controllers
                 Errors = null
             });
         }
-
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("{id:int}")]
         public async Task<ActionResult> AddImages(int id, List<IFormFile> file)
         {
