@@ -61,5 +61,10 @@ namespace Sakany.Application.Services
             return await AccountRepository.ChangePassword(model, user);
         }
 
+        public async Task<CustomDataOfUserDTO?> GetCustomData(string UserId)
+        {
+            ApplicationUser? applicationUser = await AccountRepository.GetUserProfile(UserId);
+            return mapper.Map<CustomDataOfUserDTO>(applicationUser);
+        }
     }
 }
