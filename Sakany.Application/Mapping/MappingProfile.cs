@@ -51,6 +51,9 @@ namespace Sakany.Application.Mapping
             CreateMap<PropertyDTO, Properties>();
             CreateMap<Properties, PropertyDTO>();
 
+            CreateMap<CustomDataOfUserDTO, ApplicationUser>();
+            CreateMap<ApplicationUser, CustomDataOfUserDTO>();
+
         }
     }
 }
