@@ -188,7 +188,7 @@ namespace Sakany.Presentation.Controllers
 
         //trying to use get user inherted from controller base
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("DisplayUser")]
+        [HttpGet("DisplayUser")]
         public IActionResult DisplayUser()
         {
             var jwtToken = HttpContext.Request.Headers["Authorization"].ToString().Split(' ')[1];
