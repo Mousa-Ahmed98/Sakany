@@ -1,10 +1,5 @@
 ﻿using Sakany.Application.DTOS;
 using Sakany.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sakany.Application.Interfaces
 {
@@ -15,6 +10,8 @@ namespace Sakany.Application.Interfaces
         public bool Delete(Properties property);
         public Task<PropertiesDetilesDTO> GetById(int propertyID);
         public Task<List<PropertiesDetilesDTO>> GetAll();
+
         public Task<PropertiesDetilesDTO> MapPropertyToDTOAsync(Properties properties);
+        public List<displayPropertyDTO> GetAllProperties();
     }
 }

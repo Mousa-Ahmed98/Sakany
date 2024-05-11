@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Sakany.Application.DTOS;
 using Sakany.Core.Entities;
 
@@ -28,11 +23,29 @@ namespace Sakany.Application.Mapping
             .ForMember(dest => dest.Employment, opt => opt.MapFrom(src => src.Employment))
             .ForMember(dest => dest.Job, opt => opt.MapFrom(src => src.Job));
 
+            CreateMap<Properties, displayPropertyDTO>()
+       .ForMember(dest => dest.title, opt => opt.MapFrom(src => src.Title))
+       .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
+       .ForMember(dest => dest.numOfRooms, opt => opt.MapFrom(src => src.RoomsNumber))
+       .ForMember(dest => dest.area, opt => opt.MapFrom(src => src.Area))
+       .ForMember(dest => dest.numOfBathrooms, opt => opt.MapFrom(src => src.BathroomNumber))
+       .ForMember(dest => dest.price, opt => opt.MapFrom(src => src.Price))
+       .ForMember(dest => dest.govID, opt => opt.MapFrom(src => src.GovernorateID))
+       .ForMember(dest => dest.cityId, opt => opt.MapFrom(src => src.City))
+       .ForMember(dest => dest.status, opt => opt.MapFrom(src => src.Status))
+       .ForMember(dest => dest.ownerName, opt => opt.MapFrom(src => src.Name));
 
-            CreateMap<Governorate, GovernorateDTO>(); 
-            CreateMap<GovernorateDTO, Governorate>(); 
+            CreateMap<PropertyImage, displayPropertyDTO>()
+                .ForMember(dest => dest.imageUrl, opt => opt.MapFrom(src => src.ImageUrl));
 
-            CreateMap<City, CityDTO>(); 
+
+
+
+
+            CreateMap<Governorate, GovernorateDTO>();
+            CreateMap<GovernorateDTO, Governorate>();
+
+            CreateMap<City, CityDTO>();
             CreateMap<CityDTO, City>();
 
             CreateMap<PropertyDTO, Properties>();

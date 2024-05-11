@@ -1,15 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sakany.Application.DTOS;
 using Sakany.Application.Interfaces;
 using Sakany.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace YourNamespace.Controllers
 {
@@ -53,7 +45,7 @@ namespace YourNamespace.Controllers
             //{
             //    fetsures.Add(feature);
             //}
-             int propertyId= await propertyServices.Add(propertyDTO);
+            int propertyId = await propertyServices.Add(propertyDTO);
             if (propertyId != 0)
             {
                 foreach (var fetsure in fetsures)
@@ -68,7 +60,7 @@ namespace YourNamespace.Controllers
                 return Ok(new CustomResponseDTO
                 {
                     Success = true,
-                    Data = propertyId ,
+                    Data = propertyId,
                     Message = "Property added successfully",
                     Errors = null
                 });
@@ -128,5 +120,48 @@ namespace YourNamespace.Controllers
             });
 
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GerAllProperty()
+        {
+            try
+            {
+                List<displayPropertyDTO> displayPropertyDTO = propertyServices.GetAllProperties();
+                if (displayPropertyDTO == null)
+                {
+                    var customResponseWithNoDate = new CustomResponseDTO
+                    {
+                        Success = false,
+                        Message = "The Properties Is Null ",
+                        Data = null,
+                        Errors = null
+                    };
+                    return BadRequest(customResponseWithNoDate);
+                }
+
+                var customResponseSuccessfully = new CustomResponseDTO
+                {
+                    Success = true,
+                    Data = displayPropertyDTO,
+                    Message = "data successfully retrieved",
+                    Errors = null
+                };
+                return Ok(customResponseSuccessfully);
+
+            }
+            catch (Exception ex)
+            {
+                var customResponse = new CustomResponseDTO
+                {
+                    Success = false,
+                    Message = "An error occurred while retrieving the Properties",
+                    Data = null,
+                    Errors = new List<string> { ex.Message }
+                };
+                return BadRequest(customResponse);
+            }
+        }
+
+
     }
 }
