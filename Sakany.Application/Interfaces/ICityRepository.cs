@@ -10,6 +10,7 @@ namespace Sakany.Application.Interfaces
     public interface ICityRepository
     {
         public List<City> GetAll(int governorateI);
+        public City GetById(int Id);
        
     }
 }
