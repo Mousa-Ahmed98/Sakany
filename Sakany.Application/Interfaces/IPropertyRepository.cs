@@ -10,7 +10,7 @@ namespace Sakany.Application.Interfaces
         public bool Delete(Properties property);
         public Task<Properties> GetByIdAsync(int propertyID);
         public Task<List<Properties>> GetAllAsync();
-        public List<displayPropertyDTO> GetAllProperties();
+        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, string city);
 
     }
 }

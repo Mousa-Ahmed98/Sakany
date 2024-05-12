@@ -1,17 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sakany.Application.DTOS;
 using Sakany.Application.Interfaces;
 using Sakany.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace YourNamespace.Controllers
 {
@@ -132,11 +124,11 @@ namespace YourNamespace.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GerAllProperty()
+        public async Task<ActionResult> GerAllProperty(int pageNum = 1, int pageSize = 6, int numOfRooms = 0, string priceRange = null, int govId = 0, string cityId = null)
         {
             try
             {
-                List<displayPropertyDTO> displayPropertyDTO = propertyServices.GetAllProperties();
+                List<displayPropertyDTO> displayPropertyDTO = propertyServices.GetAllProperties(pageNum, pageSize, numOfRooms, priceRange, govId, cityId);
                 if (displayPropertyDTO == null)
                 {
                     var customResponseWithNoDate = new CustomResponseDTO

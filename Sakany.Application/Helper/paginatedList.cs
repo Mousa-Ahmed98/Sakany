@@ -15,7 +15,7 @@
 
         public PaginatedList() { }
 
-        public PaginatedList(int totalitems, int page, int pagesize = 20)
+        public PaginatedList(int totalitems, int page, int pagesize = 6)
         {
 
             TotalItems = totalitems;

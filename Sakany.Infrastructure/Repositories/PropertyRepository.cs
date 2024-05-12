@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Sakany.Application.DTOS;
+using Sakany.Application.Helper;
 using Sakany.Application.Interfaces;
 using Sakany.Core.Entities;
 
@@ -43,9 +44,60 @@ namespace Sakany.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public List<displayPropertyDTO> GetAllProperties()
+        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, string city)
         {
-            List<Properties> properties = dbContext.Properties.ToList();
+            //Pagination 
+            int total = dbContext.Properties.Count();
+            var PaginatedList = new PaginatedList(total, pageNum, pageSize);
+            int skiped_data = (pageNum - 1) * pageSize;
+            int cityid = Convert.ToInt32(city);
+            //Search 
+            var query = dbContext.Properties.AsQueryable();
+
+            if (numOfRooms > 0)
+            {
+                query = query.Where(p => p.RoomsNumber == numOfRooms);
+            }
+
+            if (!string.IsNullOrEmpty(priceRange))
+            {
+                int minPrice;
+                int maxPrice;
+
+                if (priceRange.StartsWith("<"))
+                {
+                    maxPrice = int.Parse(priceRange.Substring(1));
+                    query = query.Where(p => p.Price < maxPrice);
+                }
+                else if (priceRange.StartsWith(">"))
+                {
+                    minPrice = int.Parse(priceRange.Substring(1));
+                    query = query.Where(p => p.Price > minPrice);
+                }
+                else
+                {
+                    var priceRanges = priceRange.Split('-').Select(int.Parse).ToArray();
+                    if (priceRanges.Length == 2)
+                    {
+                        minPrice = priceRanges[0];
+                        maxPrice = priceRanges[1];
+                        query = query.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
+                    }
+                }
+            }
+
+            if (govId > 0)
+            {
+                query = query.Where(p => p.GovernorateID == govId);
+            }
+
+            if (city != null)
+            {
+                query = query.Where(p => p.City == city);
+            }
+
+            List<Properties> properties = query.Skip(skiped_data).Take(pageSize).ToList();
+
             List<displayPropertyDTO> displayPropertyDTOs = mapper.Map<List<displayPropertyDTO>>(properties);
 
             foreach (var property in displayPropertyDTOs)
