@@ -164,6 +164,43 @@ namespace YourNamespace.Controllers
             }
         }
 
-
+        [HttpGet("{randomProp:int}")]
+        public async Task<ActionResult> GetRandomProps(int randomProp)
+        {
+            List<displayPropertyDTO> displayPropertyDTOs = propertyServices.GetRandomProperties(randomProp);
+            try
+            {
+                if (displayPropertyDTOs == null)
+                {
+                    var customResponseWithNoDate = new CustomResponseDTO
+                    {
+                        Success = false,
+                        Message = "The Properties Is Null ",
+                        Data = null,
+                        Errors = null
+                    };
+                    return BadRequest(customResponseWithNoDate);
+                }
+                var customResponseSuccessfully = new CustomResponseDTO
+                {
+                    Success = true,
+                    Data = displayPropertyDTOs,
+                    Message = "data successfully retrieved",
+                    Errors = null
+                };
+                return Ok(customResponseSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                var customResponse = new CustomResponseDTO
+                {
+                    Success = false,
+                    Message = "An error occurred while retrieving the Properties",
+                    Data = null,
+                    Errors = new List<string> { ex.Message }
+                };
+                return BadRequest(customResponse);
+            }
+        }
     }
 }

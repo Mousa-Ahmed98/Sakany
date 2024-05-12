@@ -111,6 +111,23 @@ namespace Sakany.Infrastructure.Repositories
         }
 
 
+        public List<displayPropertyDTO> GetRandomProperties(int size = 6)
+        {
+            string sqlQuery = $"select top {size} * from Properties order by NEWID();";
+            List<Properties> properties = dbContext.Properties
+                  .FromSqlRaw(sqlQuery)
+                  .ToList();
+
+            List<displayPropertyDTO> displayPropertyDTOs = mapper.Map<List<displayPropertyDTO>>(properties);
+            foreach (var property in displayPropertyDTOs)
+            {
+                int cityId = int.Parse(property.cityId);
+                property.Address = dbContext.Governorates.Where(g => g.GovernorateID == property.govID).Select(g => g.Name).FirstOrDefault() + ", " +
+                    dbContext.Cities.Where(c => c.Id == cityId).Select(c => c.Name).FirstOrDefault();
+                property.imageUrl = dbContext.PropertyImages.Where(img => img.PropertyId == property.id).Select(img => img.ImageUrl).FirstOrDefault();
+            }
+            return displayPropertyDTOs;
+        }
         public async Task<Properties> GetByIdAsync(int propertyID)
         {
             Properties? property = await dbContext.Set<Properties>()
@@ -118,7 +135,6 @@ namespace Sakany.Infrastructure.Repositories
 
             return property;
         }
-
         public void Update(Properties property)
         {
             dbContext.Set<Properties>().Update(property);

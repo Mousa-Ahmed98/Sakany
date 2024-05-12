@@ -11,6 +11,7 @@ namespace Sakany.Application.Interfaces
         public Task<Properties> GetByIdAsync(int propertyID);
         public Task<List<Properties>> GetAllAsync();
         public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, string city);
+        public List<displayPropertyDTO> GetRandomProperties(int size);
 
     }
 }

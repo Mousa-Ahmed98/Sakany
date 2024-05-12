@@ -108,5 +108,9 @@ namespace Sakany.Application.Services
         {
             return propertyRepository.GetAllProperties(pageNum, pageSize, numOfRooms, priceRange, govId, cityId);
         }
+        public List<displayPropertyDTO> GetRandomProperties(int size)
+        {
+            return propertyRepository.GetRandomProperties(size);
+        }
     }
 }
