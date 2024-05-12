@@ -104,9 +104,9 @@ namespace Sakany.Application.Services
             return dto;
         }
 
-        public List<displayPropertyDTO> GetAllProperties()
+        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, string cityId)
         {
-            return propertyRepository.GetAllProperties();
+            return propertyRepository.GetAllProperties(pageNum, pageSize, numOfRooms, priceRange, govId, cityId);
         }
     }
 }
