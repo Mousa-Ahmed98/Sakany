@@ -44,7 +44,7 @@ namespace Sakany.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, string city)
+        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, int city)
         {
             //Pagination 
             int total = dbContext.Properties.Count();
@@ -91,7 +91,7 @@ namespace Sakany.Infrastructure.Repositories
                 query = query.Where(p => p.GovernorateID == govId);
             }
 
-            if (city != null)
+            if (city >0)
             {
                 query = query.Where(p => p.City == city);
             }
@@ -102,9 +102,9 @@ namespace Sakany.Infrastructure.Repositories
 
             foreach (var property in displayPropertyDTOs)
             {
-                int cityId = int.Parse(property.cityId);
+    
                 property.Address = dbContext.Governorates.Where(g => g.GovernorateID == property.govID).Select(g => g.Name).FirstOrDefault() + ", " +
-                    dbContext.Cities.Where(c => c.Id == cityId).Select(c => c.Name).FirstOrDefault();
+                    dbContext.Cities.Where(c => c.Id == property.cityId).Select(c => c.Name).FirstOrDefault();
                 property.imageUrl = dbContext.PropertyImages.Where(img => img.PropertyId == property.id).Select(img => img.ImageUrl).FirstOrDefault();
             }
             return displayPropertyDTOs;
@@ -121,9 +121,9 @@ namespace Sakany.Infrastructure.Repositories
             List<displayPropertyDTO> displayPropertyDTOs = mapper.Map<List<displayPropertyDTO>>(properties);
             foreach (var property in displayPropertyDTOs)
             {
-                int cityId = int.Parse(property.cityId);
+              
                 property.Address = dbContext.Governorates.Where(g => g.GovernorateID == property.govID).Select(g => g.Name).FirstOrDefault() + ", " +
-                    dbContext.Cities.Where(c => c.Id == cityId).Select(c => c.Name).FirstOrDefault();
+                    dbContext.Cities.Where(c => c.Id == property.cityId).Select(c => c.Name).FirstOrDefault();
                 property.imageUrl = dbContext.PropertyImages.Where(img => img.PropertyId == property.id).Select(img => img.ImageUrl).FirstOrDefault();
             }
             return displayPropertyDTOs;

@@ -8,7 +8,7 @@
         public int numOfBathrooms { get; set; }
         public float area { get; set; }
         public int govID { get; set; }
-        public string cityId { get; set; }
+        public int cityId { get; set; }
         public string title { get; set; }
         public string imageUrl { get; set; }
         public string status { get; set; }

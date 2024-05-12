@@ -12,7 +12,7 @@ namespace Sakany.Application.Interfaces
         public Task<List<PropertiesDetilesDTO>> GetAll();
 
         public Task<PropertiesDetilesDTO> MapPropertyToDTOAsync(Properties properties);
-        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, string city);
+        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, int city);
         public List<displayPropertyDTO> GetRandomProperties(int size);
     }
 }
