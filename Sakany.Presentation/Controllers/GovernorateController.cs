@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sakany.Application.DTOS;
 using Sakany.Application.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Sakany.Presentation.Controllers
 {
@@ -18,7 +15,6 @@ namespace Sakany.Presentation.Controllers
             this.governorateServices = governorateServices;
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
         [HttpGet]
         public IActionResult GetAllGovernorate()
@@ -62,7 +58,6 @@ namespace Sakany.Presentation.Controllers
         }
 
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
         [HttpGet("{id:int}")]
         public IActionResult GetGovernorateById(int id)
