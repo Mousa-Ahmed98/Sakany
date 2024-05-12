@@ -19,7 +19,7 @@ namespace Sakany.Core.Entities
         public float Price { get; set; }
         public float Area { get; set; }
         public int GovernorateID { get; set; }
-        public string City { get; set; }
+        public int City { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
         public string Phone { get; set; }

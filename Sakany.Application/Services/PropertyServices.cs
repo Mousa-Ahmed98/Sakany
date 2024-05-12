@@ -11,17 +11,22 @@ namespace Sakany.Application.Services
         private readonly IGovernorateRepository governorateRepository;
         private readonly IImageRepository imageRepository;
         private readonly IMapper mapper;
+        private readonly ICityServices cityServices;
 
         public PropertyServices(
             IPropertyRepository propertyRepository
-            , IGovernorateRepository governorateRepository
-            , IImageRepository imageRepository
-            , IMapper mapper)
+
+            ,IGovernorateRepository governorateRepository
+            ,IImageRepository imageRepository
+            ,IMapper mapper,
+            ICityServices cityServices)
+
         {
             this.propertyRepository = propertyRepository;
             this.governorateRepository = governorateRepository;
             this.imageRepository = imageRepository;
             this.mapper = mapper;
+            this.cityServices = cityServices;
         }
         public async Task<int> Add(PropertyDTO propertyDTO)
         {
@@ -81,7 +86,6 @@ namespace Sakany.Application.Services
             {
                 dto.Id = properties.Id;
                 dto.Type = properties.Type;
-                dto.City = properties.City;
                 dto.Title = properties.Title;
                 dto.Status = properties.Status;
                 dto.Area = (decimal)properties.Area;
@@ -99,6 +103,11 @@ namespace Sakany.Application.Services
                     {
                         dto.Images.Add(image.ImageUrl);
                     }
+                }
+                CityDTO cityDTO = cityServices.GetById(properties.City);
+                if(cityDTO != null)
+                {
+                    dto.City = cityDTO.Name;
                 }
             }
             return dto;
