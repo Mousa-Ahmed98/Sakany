@@ -16,6 +16,8 @@ namespace Sakany.Application.Mapping
             //        TSource          TDestination
             CreateMap<RegisterUserDTO, ApplicationUser>();
             CreateMap<ApplicationUser, LoginUserDTO>();
+            CreateMap<Message, MessageDTO>();
+            CreateMap<MessageDTO, Message>();
 
             CreateMap<EditUserProfileDTO, ApplicationUser>();
             CreateMap<ApplicationUser, EditUserProfileDTO>();

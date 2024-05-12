@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sakany.Core.Entities;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Sakany.Application.Interfaces
 {
@@ -17,6 +19,7 @@ namespace Sakany.Application.Interfaces
         public Task<ApplicationUser> EditUserProfile(ApplicationUser applicationUser);
         public Task<ApplicationUser?> GetUserProfile(string UserId);
         public Task<IdentityResult> ChangePassword(ChangePasswordDTO model, ApplicationUser user);
+        public CustomResponseDTO DisplayUser(ClaimsPrincipal User, string jwtToken);
 
     }
 }

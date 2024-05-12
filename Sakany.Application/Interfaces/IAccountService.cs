@@ -5,6 +5,7 @@ using Sakany.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace Sakany.Application.Interfaces
         public Task<EditUserProfileDTO> EditUserProfile(EditUserProfileDTO editUserProfileDTO, string userId);
         public Task<EditUserProfileDTO?> GetUserProfile(string UserId);
         public Task<IdentityResult> ChangePassword(ChangePasswordDTO model, ApplicationUser user);
+        public CustomResponseDTO DisplayUser(ClaimsPrincipal User, string jwtToken);
 
 
     }

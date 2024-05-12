@@ -84,11 +84,12 @@ namespace Sakany.Presentation.Controllers
                 var res = await accountService.Login(userDTO);
                 if (res != null)
                 {
+
                     var customResponse = new CustomResponseDTO
                     {
                         Success = true,
                         Message = "Login successful",
-                        Data = res 
+                        Data = new { Response = res }
                     };
 
                     return Ok(customResponse);
@@ -197,19 +198,24 @@ namespace Sakany.Presentation.Controllers
         //trying to use get user inherted from controller base
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("DisplayUser")]
-        public IActionResult DisplayUser()
+        public ActionResult DisplayUser()
         {
+
             var jwtToken = HttpContext.Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var user = userManager.GetUserAsync(User).Result;
+            var response = accountService.DisplayUser(User , jwtToken);
 
-            if (user == null)
+            if (response.Success)
             {
-                return NotFound("User not found");
+                return Ok(response);
             }
 
-            return Ok(new { User = user, Token = jwtToken });
+            return BadRequest(response);
+
         }
+
+
+
 
 
     }
