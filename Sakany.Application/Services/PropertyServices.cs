@@ -16,9 +16,9 @@ namespace Sakany.Application.Services
         public PropertyServices(
             IPropertyRepository propertyRepository
 
-            ,IGovernorateRepository governorateRepository
-            ,IImageRepository imageRepository
-            ,IMapper mapper,
+            , IGovernorateRepository governorateRepository
+            , IImageRepository imageRepository
+            , IMapper mapper,
             ICityServices cityServices)
 
         {
@@ -105,7 +105,7 @@ namespace Sakany.Application.Services
                     }
                 }
                 CityDTO cityDTO = cityServices.GetById(properties.City);
-                if(cityDTO != null)
+                if (cityDTO != null)
                 {
                     dto.City = cityDTO.Name;
                 }
@@ -113,7 +113,7 @@ namespace Sakany.Application.Services
             return dto;
         }
 
-        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, string cityId)
+        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, int cityId)
         {
             return propertyRepository.GetAllProperties(pageNum, pageSize, numOfRooms, priceRange, govId, cityId);
         }

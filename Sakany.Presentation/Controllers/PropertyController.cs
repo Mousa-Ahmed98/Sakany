@@ -124,7 +124,7 @@ namespace YourNamespace.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GerAllProperty(int pageNum = 1, int pageSize = 6, int numOfRooms = 0, string priceRange = null, int govId = 0, string cityId = null)
+        public async Task<ActionResult> GerAllProperty(int pageNum = 1, int pageSize = 6, int numOfRooms = 0, string priceRange = null, int govId = 0, int cityId = 0)
         {
             try
             {
