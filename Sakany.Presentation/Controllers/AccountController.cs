@@ -164,24 +164,32 @@ namespace Sakany.Presentation.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("change-password")]
-        public async Task<IActionResult> ChangePassword(ChangePasswordDTO model)
+        public async Task<ActionResult> ChangePassword(ChangePasswordDTO model)
         {
             var user = await userManager.GetUserAsync(User);
+            var response = new CustomResponseDTO();
 
             if (user == null)
             {
-                return NotFound("User not found");
+                response.Success = false;
+                response.Message = "User not found";
+                return BadRequest(response);
             }
 
             var changePasswordResult = await accountService.ChangePassword(model ,user);
 
             if (changePasswordResult.Succeeded)
             {
-                return Ok("Password changed successfully");
+                response.Success = true;
+                response.Message = "Password changed successfully";
+                return Ok(response);
             }
             else
             {
-                return BadRequest(changePasswordResult.Errors);
+                response.Success = false;
+                response.Message = "User not found";
+                response.Data = changePasswordResult.Errors;
+                return BadRequest(response);
             }
         }
 
@@ -232,19 +240,21 @@ namespace Sakany.Presentation.Controllers
 
 
         //trying to use get user inherted from controller base
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpPost("DisplayUser")]
-        //public async Task<IActionResult> DisplayUser()
-        //{
-        //    var user = await userManager.GetUserAsync(User);
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("DisplayUser")]
+        public IActionResult DisplayUser()
+        {
+            var jwtToken = HttpContext.Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-        //    if (user == null)
-        //    {
-        //        return NotFound("User not found");
-        //    }
+            var user = userManager.GetUserAsync(User).Result;
 
-        //    return Ok(user);
-        //}
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(new { User = user, Token = jwtToken });
+        }
 
 
     }

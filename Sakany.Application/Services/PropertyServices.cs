@@ -2,11 +2,6 @@
 using Sakany.Application.DTOS;
 using Sakany.Application.Interfaces;
 using Sakany.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sakany.Application.Services
 {
@@ -20,10 +15,12 @@ namespace Sakany.Application.Services
 
         public PropertyServices(
             IPropertyRepository propertyRepository
+
             ,IGovernorateRepository governorateRepository
             ,IImageRepository imageRepository
             ,IMapper mapper,
             ICityServices cityServices)
+
         {
             this.propertyRepository = propertyRepository;
             this.governorateRepository = governorateRepository;
@@ -50,17 +47,18 @@ namespace Sakany.Application.Services
                 UserName = propertyDTO.UserName,
                 Phone = propertyDTO.Phone,
                 Email = propertyDTO.Email,
-                GovernorateID =propertyDTO.Governorate
+                GovernorateID = propertyDTO.Governorate
             };
 
-            Properties properties =await propertyRepository.AddAsync(property);
+            Properties properties = await propertyRepository.AddAsync(property);
             return properties.Id;
         }
         public async Task<List<PropertiesDetilesDTO>> GetAll()
         {
-            var ListProperties=await propertyRepository.GetAllAsync();
+            var ListProperties = await propertyRepository.GetAllAsync();
             List<PropertiesDetilesDTO> ListPropertiesDetilesDTOs = new List<PropertiesDetilesDTO>();
-            foreach (var property in ListProperties) {
+            foreach (var property in ListProperties)
+            {
                 PropertiesDetilesDTO propertiesDetilesDTO = await MapPropertyToDTOAsync(property);
                 ListPropertiesDetilesDTOs.Add(propertiesDetilesDTO);
             }
@@ -113,6 +111,15 @@ namespace Sakany.Application.Services
                 }
             }
             return dto;
+        }
+
+        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, string cityId)
+        {
+            return propertyRepository.GetAllProperties(pageNum, pageSize, numOfRooms, priceRange, govId, cityId);
+        }
+        public List<displayPropertyDTO> GetRandomProperties(int size)
+        {
+            return propertyRepository.GetRandomProperties(size);
         }
     }
 }

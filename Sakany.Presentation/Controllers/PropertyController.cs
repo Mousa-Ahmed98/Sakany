@@ -1,17 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sakany.Application.DTOS;
 using Sakany.Application.Interfaces;
 using Sakany.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace YourNamespace.Controllers
 {
@@ -55,7 +47,7 @@ namespace YourNamespace.Controllers
             //{
             //    fetsures.Add(feature);
             //}
-             int propertyId= await propertyServices.Add(propertyDTO);
+            int propertyId = await propertyServices.Add(propertyDTO);
             if (propertyId != 0)
             {
                 foreach (var fetsure in fetsures)
@@ -70,7 +62,7 @@ namespace YourNamespace.Controllers
                 return Ok(new CustomResponseDTO
                 {
                     Success = true,
-                    Data = propertyId ,
+                    Data = propertyId,
                     Message = "Property added successfully",
                     Errors = null
                 });
@@ -129,6 +121,86 @@ namespace YourNamespace.Controllers
                 Errors = null
             });
 
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GerAllProperty(int pageNum = 1, int pageSize = 6, int numOfRooms = 0, string priceRange = null, int govId = 0, string cityId = null)
+        {
+            try
+            {
+                List<displayPropertyDTO> displayPropertyDTO = propertyServices.GetAllProperties(pageNum, pageSize, numOfRooms, priceRange, govId, cityId);
+                if (displayPropertyDTO == null)
+                {
+                    var customResponseWithNoDate = new CustomResponseDTO
+                    {
+                        Success = false,
+                        Message = "The Properties Is Null ",
+                        Data = null,
+                        Errors = null
+                    };
+                    return BadRequest(customResponseWithNoDate);
+                }
+
+                var customResponseSuccessfully = new CustomResponseDTO
+                {
+                    Success = true,
+                    Data = displayPropertyDTO,
+                    Message = "data successfully retrieved",
+                    Errors = null
+                };
+                return Ok(customResponseSuccessfully);
+
+            }
+            catch (Exception ex)
+            {
+                var customResponse = new CustomResponseDTO
+                {
+                    Success = false,
+                    Message = "An error occurred while retrieving the Properties",
+                    Data = null,
+                    Errors = new List<string> { ex.Message }
+                };
+                return BadRequest(customResponse);
+            }
+        }
+
+        [HttpGet("{randomProp:int}")]
+        public async Task<ActionResult> GetRandomProps(int randomProp)
+        {
+            List<displayPropertyDTO> displayPropertyDTOs = propertyServices.GetRandomProperties(randomProp);
+            try
+            {
+                if (displayPropertyDTOs == null)
+                {
+                    var customResponseWithNoDate = new CustomResponseDTO
+                    {
+                        Success = false,
+                        Message = "The Properties Is Null ",
+                        Data = null,
+                        Errors = null
+                    };
+                    return BadRequest(customResponseWithNoDate);
+                }
+                var customResponseSuccessfully = new CustomResponseDTO
+                {
+                    Success = true,
+                    Data = displayPropertyDTOs,
+                    Message = "data successfully retrieved",
+                    Errors = null
+                };
+                return Ok(customResponseSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                var customResponse = new CustomResponseDTO
+                {
+                    Success = false,
+                    Message = "An error occurred while retrieving the Properties",
+                    Data = null,
+                    Errors = new List<string> { ex.Message }
+                };
+                return BadRequest(customResponse);
+            }
         }
     }
 }
