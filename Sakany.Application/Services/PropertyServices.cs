@@ -113,7 +113,7 @@ namespace Sakany.Application.Services
             return dto;
         }
 
-        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, int cityId)
+        public PropertyPaginationResponseDTO GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, int cityId)
         {
             return propertyRepository.GetAllProperties(pageNum, pageSize, numOfRooms, priceRange, govId, cityId);
         }

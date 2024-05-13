@@ -44,13 +44,11 @@ namespace Sakany.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public List<displayPropertyDTO> GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, int city)
+        public PropertyPaginationResponseDTO GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, int city)
         {
             //Pagination 
-            int total = dbContext.Properties.Count();
-            var PaginatedList = new PaginatedList(total, pageNum, pageSize);
-            int skiped_data = (pageNum - 1) * pageSize;
-            int cityid = Convert.ToInt32(city);
+
+
             //Search 
             var query = dbContext.Properties.AsQueryable();
 
@@ -59,7 +57,7 @@ namespace Sakany.Infrastructure.Repositories
                 query = query.Where(p => p.RoomsNumber == numOfRooms);
             }
 
-            if (!string.IsNullOrEmpty(priceRange))
+            if (priceRange != "all")
             {
                 int minPrice;
                 int maxPrice;
@@ -91,23 +89,53 @@ namespace Sakany.Infrastructure.Repositories
                 query = query.Where(p => p.GovernorateID == govId);
             }
 
-            if (city >0)
+            if (city > 0)
             {
                 query = query.Where(p => p.City == city);
             }
 
-            List<Properties> properties = query.Skip(skiped_data).Take(pageSize).ToList();
 
+            int total = query.Count();
+            var paginatedList = new PaginatedList(total, pageNum, pageSize);
+
+            int totalPages = paginatedList.TotalPages;
+            int currentPage = paginatedList.CurrentPage;
+            int startPage = paginatedList.StartPage;
+            int endPage = paginatedList.EndPage;
+
+            int skipedData = (pageNum - 1) * pageSize;
+            int cityId = Convert.ToInt32(city);
+            List<Properties> properties = query.Skip(skipedData).Take(pageSize).ToList();
             List<displayPropertyDTO> displayPropertyDTOs = mapper.Map<List<displayPropertyDTO>>(properties);
 
             foreach (var property in displayPropertyDTOs)
             {
-    
-                property.Address = dbContext.Governorates.Where(g => g.GovernorateID == property.govID).Select(g => g.Name).FirstOrDefault() + ", " +
-                    dbContext.Cities.Where(c => c.Id == property.cityId).Select(c => c.Name).FirstOrDefault();
-                property.imageUrl = dbContext.PropertyImages.Where(img => img.PropertyId == property.id).Select(img => img.ImageUrl).FirstOrDefault();
+                property.isForSale = property.status == "Sale";
+                property.Address = dbContext.Governorates.Where(g => g.GovernorateID == property.govID)
+                                                         .Select(g => g.Name)
+                                                         .FirstOrDefault() + ", " +
+                                  dbContext.Cities.Where(c => c.Id == property.cityId)
+                                                  .Select(c => c.Name)
+                                                  .FirstOrDefault();
+                property.imageUrl = dbContext.PropertyImages.Where(img => img.PropertyId == property.id)
+                                                             .Select(img => img.ImageUrl)
+                                                             .FirstOrDefault();
             }
-            return displayPropertyDTOs;
+
+            var responseDTO = new PropertyPaginationResponseDTO
+            {
+                Properties = displayPropertyDTOs,
+                PaginationInfo = new PaginationInfoDTO
+                {
+                    Total = total,
+                    TotalPages = totalPages,
+                    CurrentPage = currentPage,
+                    StartPage = startPage,
+                    EndPage = endPage
+                }
+            };
+
+            return responseDTO;
         }
 
 
@@ -121,7 +149,8 @@ namespace Sakany.Infrastructure.Repositories
             List<displayPropertyDTO> displayPropertyDTOs = mapper.Map<List<displayPropertyDTO>>(properties);
             foreach (var property in displayPropertyDTOs)
             {
-              
+                property.isForSale = property.status == "Sale" ? true : false;
+
                 property.Address = dbContext.Governorates.Where(g => g.GovernorateID == property.govID).Select(g => g.Name).FirstOrDefault() + ", " +
                     dbContext.Cities.Where(c => c.Id == property.cityId).Select(c => c.Name).FirstOrDefault();
                 property.imageUrl = dbContext.PropertyImages.Where(img => img.PropertyId == property.id).Select(img => img.ImageUrl).FirstOrDefault();
