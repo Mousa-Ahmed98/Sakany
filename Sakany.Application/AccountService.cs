@@ -15,25 +15,19 @@ namespace Sakany.Application
     {
         private IAccountRepository AccountRepository;
         private IMapper mapper;
-
         public AccountService(IAccountRepository accountRepository, IMapper mapper)
         {
             AccountRepository = accountRepository;
             this.mapper = mapper;
         }
-
         public async Task<IdentityResult> Register(RegisterUserDTO registerUserDTO)   //must this function be async or not ??
         {
             ApplicationUser user = mapper.Map<ApplicationUser>(registerUserDTO);
-
             return await AccountRepository.Register(user, registerUserDTO);
         }
-
         public async Task<dynamic> Login(LoginUserDTO userDTO)
         {
-
             return await AccountRepository.Login(userDTO);
         }
-
     }
 }

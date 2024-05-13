@@ -115,6 +115,9 @@ namespace Sakany.Presentation
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
@@ -137,10 +140,7 @@ namespace Sakany.Presentation
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-
             app.MapControllers();
-
             app.Run();
         }
     }
