@@ -124,11 +124,11 @@ namespace YourNamespace.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GerAllProperty(int pageNum = 1, int pageSize = 6, int numOfRooms = 0, string priceRange = null, int govId = 0, int cityId = 0)
+        public async Task<ActionResult> GerAllProperty(int pageNum = 1, int pageSize = 6, int numOfRooms = 0, string priceRange = "all", int govId = 0, int cityId = 0)
         {
             try
             {
-                List<displayPropertyDTO> displayPropertyDTO = propertyServices.GetAllProperties(pageNum, pageSize, numOfRooms, priceRange, govId, cityId);
+                PropertyPaginationResponseDTO displayPropertyDTO = propertyServices.GetAllProperties(pageNum, pageSize, numOfRooms, priceRange, govId, cityId);
                 if (displayPropertyDTO == null)
                 {
                     var customResponseWithNoDate = new CustomResponseDTO

@@ -13,6 +13,7 @@
         public string imageUrl { get; set; }
         public string status { get; set; }
         public string Address { get; set; }
+        public bool isForSale { get; set; }
         //Owner info
         public string? ownerImageUrl { get; set; } = "/images/ProfileImage/Avatar.svg";
         public string? ownerName { get; set; }
