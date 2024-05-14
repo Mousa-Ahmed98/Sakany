@@ -22,5 +22,11 @@ namespace Sakany.Infrastructure.Repositories
                 .Where(c=>c.GovernorateID == governorateI)
                 .ToList();
         }
+
+        public City GetById(int Id)
+        {
+            return dbContext.Set<City>()
+                            .FirstOrDefault(c => c.Id == Id);
+        }
     }
 }

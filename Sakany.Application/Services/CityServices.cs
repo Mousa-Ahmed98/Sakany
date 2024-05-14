@@ -29,5 +29,13 @@ namespace Sakany.Application.Services
             List<CityDTO> cityDTOs = mapper.Map<List<City>, List<CityDTO>>(cities);
             return cityDTOs;
         }
+
+        public CityDTO GetById(int Id)
+        {
+            City city= cityRepository.GetById(Id);
+            CityDTO cityDTO = mapper.Map<City, CityDTO>(city);
+            return cityDTO;
+
+        }
     }
 }

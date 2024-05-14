@@ -19,6 +19,7 @@ namespace Sakany.Application.Interfaces
         public Task<EditUserProfileDTO?> GetUserProfile(string UserId);
         public Task<IdentityResult> ChangePassword(ChangePasswordDTO model, ApplicationUser user);
         public CustomResponseDTO DisplayUser(ClaimsPrincipal User, string jwtToken);
+        public Task<CustomDataOfUserDTO?> GetCustomData(string UserId);
 
 
     }
