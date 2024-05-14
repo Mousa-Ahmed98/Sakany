@@ -11,14 +11,20 @@ namespace Sakany.Application.Services
 {
     public class FavoriteServices : IFavoriteServices
     {
+        private readonly IFavoriteRepository favoriteRepository;
+
+        public FavoriteServices(IFavoriteRepository favoriteRepository)
+        {
+            this.favoriteRepository = favoriteRepository;
+        }
         public void Add(Favorite favorite)
         {
-            throw new NotImplementedException();
+            favoriteRepository.Add(favorite);
         }
 
         public void Delete(Favorite favorite)
         {
-            throw new NotImplementedException();
+           favoriteRepository.Delete(favorite);
         }
 
         public List<FavoriteDTO> GetAll()
@@ -28,7 +34,7 @@ namespace Sakany.Application.Services
 
         public void Update(Favorite favorite)
         {
-            throw new NotImplementedException();
+            favoriteRepository.Update(favorite);
         }
     }
 }

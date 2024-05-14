@@ -8,5 +8,6 @@ namespace Sakany.Application.DTOS
 {
     public class FavoriteDTO
     {
+
     }
 }
