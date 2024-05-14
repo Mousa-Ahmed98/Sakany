@@ -10,6 +10,12 @@ namespace Sakany.Infrastructure.Repositories
 {
     public class FavoriteRepository : IFavoriteRepository
     {
+        private readonly ApplicationDbContext dbContext;
+
+        public FavoriteRepository(ApplicationDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
         public void Add(Favorite favorite)
         {
             throw new NotImplementedException();
