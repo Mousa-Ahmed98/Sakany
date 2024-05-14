@@ -16,6 +16,7 @@ namespace Sakany.Infrastructure
         public  DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public  DbSet<City> Cities { get; set; }
         public  DbSet<Governorate> Governorates { get; set; }
+        public  DbSet<Proposal> Proposals { get; set; }
 
         protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {
