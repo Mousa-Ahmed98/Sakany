@@ -19,7 +19,7 @@ namespace Sakany.Infrastructure
         public  DbSet<Properties> Properties { get; set; }
         public  DbSet<PropertyFeatures> PropertyFeatures { get; set; }
         public  DbSet<PropertyImage> PropertyImages { get; set; }
-
+        public DbSet<Order> Orders { get; set; } //DbSet for Orders
 
         protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {
