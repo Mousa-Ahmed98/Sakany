@@ -13,6 +13,7 @@ using Sakany.Infrastructure.Repositories;
 using Sakany.Application.Mapping;
 using AutoMapper;
 using Sakany.Application.Services;
+using Sakany.Application;
 
 namespace Sakany.Presentation
 {
@@ -122,6 +123,11 @@ namespace Sakany.Presentation
 
             builder.Services.AddScoped<IPropertyFeaturesRepository, PropertyFeaturesRepository>();
             builder.Services.AddScoped<IPropertyFeaturesServices, PropertyFeaturesServices>();
+
+
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+
 
             //End register services (:
 
