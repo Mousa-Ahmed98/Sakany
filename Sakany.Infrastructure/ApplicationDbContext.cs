@@ -16,6 +16,7 @@ namespace Sakany.Infrastructure
         public  DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public  DbSet<City> Cities { get; set; }
         public  DbSet<Governorate> Governorates { get; set; }
+        public  DbSet<Message> Messages { get; set; }
         public  DbSet<Properties> Properties { get; set; }
         public  DbSet<PropertyFeatures> PropertyFeatures { get; set; }
         public  DbSet<PropertyImage> PropertyImages { get; set; }

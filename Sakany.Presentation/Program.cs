@@ -117,6 +117,11 @@ namespace Sakany.Presentation
             builder.Services.AddScoped<ICityRepository, CityRepository>();
             builder.Services.AddScoped<ICityServices, CityServices>();
 
+            builder.Services.AddScoped<IMessageService, MessageService>();
+            builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+            
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
             builder.Services.AddScoped<IPropertyServices, PropertyServices>();
 
