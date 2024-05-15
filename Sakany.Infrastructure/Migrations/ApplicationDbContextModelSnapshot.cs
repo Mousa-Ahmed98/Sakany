@@ -285,7 +285,41 @@ namespace Sakany.Infrastructure.Migrations
                     b.ToTable("Governorates");
                 });
 
+
             modelBuilder.Entity("Sakany.Core.Entities.Message", b =>
+
+            modelBuilder.Entity("Sakany.Core.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AsetID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OwnerID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Proposal")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+
             modelBuilder.Entity("Sakany.Core.Entities.Properties", b =>
                 {
                     b.Property<int>("Id")
@@ -303,9 +337,8 @@ namespace Sakany.Infrastructure.Migrations
                     b.Property<int>("BathroomNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("City")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -413,7 +446,7 @@ namespace Sakany.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -422,7 +455,7 @@ namespace Sakany.Infrastructure.Migrations
                     b.HasOne("Sakany.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -431,7 +464,7 @@ namespace Sakany.Infrastructure.Migrations
                     b.HasOne("Sakany.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -440,13 +473,13 @@ namespace Sakany.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Sakany.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -455,7 +488,7 @@ namespace Sakany.Infrastructure.Migrations
                     b.HasOne("Sakany.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

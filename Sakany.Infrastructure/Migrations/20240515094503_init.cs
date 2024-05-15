@@ -87,6 +87,24 @@ namespace Sakany.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    OwnerID = table.Column<int>(type: "int", nullable: false),
+                    AsetID = table.Column<int>(type: "int", nullable: false),
+                    Proposal = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Properties",
                 columns: table => new
                 {
@@ -102,7 +120,7 @@ namespace Sakany.Infrastructure.Migrations
                     Price = table.Column<float>(type: "real", nullable: false),
                     Area = table.Column<float>(type: "real", nullable: false),
                     GovernorateID = table.Column<int>(type: "int", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -159,7 +177,7 @@ namespace Sakany.Infrastructure.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -180,7 +198,7 @@ namespace Sakany.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,7 +218,7 @@ namespace Sakany.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -218,13 +236,13 @@ namespace Sakany.Infrastructure.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -244,7 +262,7 @@ namespace Sakany.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -310,6 +328,9 @@ namespace Sakany.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Governorates");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Properties");

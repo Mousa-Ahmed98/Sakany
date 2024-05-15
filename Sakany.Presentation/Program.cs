@@ -13,6 +13,7 @@ using Sakany.Infrastructure.Repositories;
 using Sakany.Application.Mapping;
 using AutoMapper;
 using Sakany.Application.Services;
+using Sakany.Application;
 
 namespace Sakany.Presentation
 {
@@ -29,13 +30,15 @@ namespace Sakany.Presentation
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             //authentcation services
-            builder.Services.AddAuthentication(options => {
+            builder.Services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                
+
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                
+
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
+            }).AddJwtBearer(options =>
+            {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -110,7 +113,7 @@ namespace Sakany.Presentation
             //Start register services (:
             builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
             builder.Services.AddScoped<IGovernorateServices, GovernorateServices>();
-            
+
             builder.Services.AddScoped<ICityRepository, CityRepository>();
             builder.Services.AddScoped<ICityServices, CityServices>();
 
@@ -128,11 +131,16 @@ namespace Sakany.Presentation
             builder.Services.AddScoped<IPropertyFeaturesRepository, PropertyFeaturesRepository>();
             builder.Services.AddScoped<IPropertyFeaturesServices, PropertyFeaturesServices>();
 
+
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+
+
             //End register services (:
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-            
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("mypolicy", policy => policy.AllowAnyOrigin()
@@ -171,6 +179,8 @@ namespace Sakany.Presentation
             #endregion
 
             app.UseCors("mypolicy");
+
+            app.UseStaticFiles();
 
             //app.UseAuthentication();
             app.UseAuthorization();
