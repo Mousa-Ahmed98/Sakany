@@ -1,15 +1,19 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Sakany.Infrastructure;
+using Sakany.Core.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Sakany.Application.Interfaces;
-using Sakany.Application.Mapping;
-using Sakany.Application.Services;
-using Sakany.Core.Entities;
-using Sakany.Infrastructure;
-using Sakany.Infrastructure.Repositories;
 using System.Text;
+using Sakany.Application.Interfaces;
+using Sakany.Infrastructure.Repositories;
+using Sakany.Application.Mapping;
+using AutoMapper;
+using Sakany.Application.Services;
+using Sakany.Application;
 
 namespace Sakany.Presentation
 {
@@ -44,7 +48,7 @@ namespace Sakany.Presentation
                     ValidIssuer = "http://localhost:5019/",
                     ValidAudience = "http://localhost:4200",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding
-                    .UTF8.GetBytes("asjiohwvwoihfwvbuvvdiKDEKDEWJAeDEdic237732JFE2343£R3je£"))
+                    .UTF8.GetBytes("asjiohwvwoihfwvbuvvdiKDEKDEWJAeDEdic237732JFE2343Â£R3jeÂ£"))
                 };
             });
 
@@ -53,14 +57,14 @@ namespace Sakany.Presentation
             #region Swagger REgion
             builder.Services.AddSwaggerGen(swagger =>
             {
-                //This is to generate the Default UI of Swagger Documentation    
+                //ThisÂ isÂ toÂ generateÂ theÂ DefaultÂ UIÂ ofÂ SwaggerÂ DocumentationÂ Â Â Â 
                 swagger.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "ASP.NET 5 Web API",
+                    Title = "ASP.NETÂ 5Â WebÂ API",
                     Description = " ITI Projrcy"
                 });
-                // To Enable authorization using Swagger (JWT)    
+                //Â ToÂ EnableÂ authorizationÂ usingÂ SwaggerÂ (JWT)Â Â Â Â 
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
@@ -68,7 +72,7 @@ namespace Sakany.Presentation
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+                    Description = "EnterÂ 'Bearer'Â [space]Â andÂ thenÂ yourÂ validÂ tokenÂ inÂ theÂ textÂ inputÂ below.\r\n\r\nExample:Â \"BearerÂ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
                 });
                 swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -121,6 +125,11 @@ namespace Sakany.Presentation
 
             builder.Services.AddScoped<IPropertyFeaturesRepository, PropertyFeaturesRepository>();
             builder.Services.AddScoped<IPropertyFeaturesServices, PropertyFeaturesServices>();
+
+
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+
 
             //End register services (:
 
