@@ -1,18 +1,15 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Sakany.Infrastructure;
-using Sakany.Core.Entities;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 using Sakany.Application.Interfaces;
-using Sakany.Infrastructure.Repositories;
 using Sakany.Application.Mapping;
-using AutoMapper;
 using Sakany.Application.Services;
+using Sakany.Core.Entities;
+using Sakany.Infrastructure;
+using Sakany.Infrastructure.Repositories;
+using System.Text;
 
 namespace Sakany.Presentation
 {
@@ -29,13 +26,15 @@ namespace Sakany.Presentation
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             //authentcation services
-            builder.Services.AddAuthentication(options => {
+            builder.Services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                
+
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                
+
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
+            }).AddJwtBearer(options =>
+            {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -110,7 +109,7 @@ namespace Sakany.Presentation
             //Start register services (:
             builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
             builder.Services.AddScoped<IGovernorateServices, GovernorateServices>();
-            
+
             builder.Services.AddScoped<ICityRepository, CityRepository>();
             builder.Services.AddScoped<ICityServices, CityServices>();
 
@@ -127,7 +126,7 @@ namespace Sakany.Presentation
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-            
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("mypolicy", policy => policy.AllowAnyOrigin()
@@ -166,6 +165,8 @@ namespace Sakany.Presentation
             #endregion
 
             app.UseCors("mypolicy");
+
+            app.UseStaticFiles();
 
             //app.UseAuthentication();
             app.UseAuthorization();
