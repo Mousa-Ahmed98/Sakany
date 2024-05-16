@@ -107,22 +107,33 @@ namespace Sakany.Presentation
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
+            //Start register services (:
             builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
             builder.Services.AddScoped<IGovernorateServices, GovernorateServices>();
             
             builder.Services.AddScoped<ICityRepository, CityRepository>();
             builder.Services.AddScoped<ICityServices, CityServices>();
 
+            builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
+            builder.Services.AddScoped<IPropertyServices, PropertyServices>();
+
+            builder.Services.AddScoped<IImageRepository, ImageRepository>();
+            builder.Services.AddScoped<IImageServices, ImageServices>();
+
+            builder.Services.AddScoped<IPropertyFeaturesRepository, PropertyFeaturesRepository>();
+            builder.Services.AddScoped<IPropertyFeaturesServices, PropertyFeaturesServices>();
+
+            //End register services (:
+
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-
+            
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("mypolicy", policy => policy.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
             });
-
 
             var app = builder.Build();
 

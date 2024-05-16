@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sakany.Application.DTOS;
 using Sakany.Application.Interfaces;
 
@@ -15,6 +14,8 @@ namespace Sakany.Presentation.Controllers
         {
             this.governorateServices = governorateServices;
         }
+
+
         [HttpGet]
         public IActionResult GetAllGovernorate()
         {
@@ -55,6 +56,7 @@ namespace Sakany.Presentation.Controllers
                 return BadRequest(customErrorResponse);
             }
         }
+
 
 
         [HttpGet("{id:int}")]

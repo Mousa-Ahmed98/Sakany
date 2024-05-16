@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sakany.Core.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Sakany.Application.Services
 {
@@ -53,6 +54,17 @@ namespace Sakany.Application.Services
         {
             ApplicationUser? applicationUser = await AccountRepository.GetUserProfile(UserId);
             return mapper.Map<EditUserProfileDTO>(applicationUser);
+        }
+
+        public async Task<IdentityResult> ChangePassword(ChangePasswordDTO model, ApplicationUser user)
+        {
+            return await AccountRepository.ChangePassword(model, user);
+        }
+
+        public async Task<CustomDataOfUserDTO?> GetCustomData(string UserId)
+        {
+            ApplicationUser? applicationUser = await AccountRepository.GetUserProfile(UserId);
+            return mapper.Map<CustomDataOfUserDTO>(applicationUser);
         }
     }
 }

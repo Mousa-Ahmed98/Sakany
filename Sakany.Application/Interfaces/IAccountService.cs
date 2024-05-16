@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Sakany.Application.DTOS;
 using Sakany.Core.Entities;
 using System;
@@ -15,6 +16,9 @@ namespace Sakany.Application.Interfaces
         public Task<dynamic> Login(LoginUserDTO userDTO);
         public Task<EditUserProfileDTO> EditUserProfile(EditUserProfileDTO editUserProfileDTO, string userId);
         public Task<EditUserProfileDTO?> GetUserProfile(string UserId);
+        public Task<IdentityResult> ChangePassword(ChangePasswordDTO model, ApplicationUser user);
+        public Task<CustomDataOfUserDTO?> GetCustomData(string UserId);
+
 
     }
 }

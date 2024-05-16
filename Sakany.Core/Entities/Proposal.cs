@@ -10,9 +10,9 @@ namespace Sakany.Core.Entities
     {
         public int Id { get; set; }
         public string ApplicationUserId { get; set; }
-        public int PropertyId { get; set; }
+        public int PropertiesId { get; set; }
 
         public ApplicationUser ApplicationUser { get; set; }
-        public Property Property { get; set; }
+        public Properties Property { get; set; }
     }
 }
