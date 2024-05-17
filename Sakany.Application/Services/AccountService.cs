@@ -64,7 +64,8 @@ namespace Sakany.Application.Services
 
         public CustomResponseDTO DisplayUser(ClaimsPrincipal User, string jwtToken)
         {
-            return AccountRepository.DisplayUser( User , jwtToken);
+            return AccountRepository.DisplayUser(User, jwtToken);
+        }
         public async Task<CustomDataOfUserDTO?> GetCustomData(string UserId)
         {
             ApplicationUser? applicationUser = await AccountRepository.GetUserProfile(UserId);
@@ -72,3 +73,4 @@ namespace Sakany.Application.Services
         }
     }
 }
+    
