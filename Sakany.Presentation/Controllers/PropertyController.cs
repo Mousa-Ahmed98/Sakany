@@ -207,7 +207,7 @@ namespace YourNamespace.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("AddProposal")]
-        public async Task<ActionResult> AddProposal(Proposal proposal)
+        public async Task<ActionResult> AddProposal(ProposalDto proposalDto)
         {
             if (!ModelState.IsValid)
             {
@@ -223,25 +223,27 @@ namespace YourNamespace.Controllers
                 return BadRequest(customResponse);
             }
 
-            if(await propertyServices.AddProposal(proposal) == proposal)
+            Proposal proposal = await propertyServices.AddProposal(proposalDto);
+            return Ok(new CustomResponseDTO
             {
-                return Ok(new CustomResponseDTO
-                {
-                    Success = true,
-                    Data = proposal,
-                    Message = "Proposal is added successfully",
-                    Errors = null
-                });
-            }
-
-            return BadRequest(new CustomResponseDTO
-            {
-                Success = false,
-                Data = null,
-                Message = "Error while adding a proposal",
+                Success = true,
+                Data = proposal,
+                Message = "Proposal is added successfully",
                 Errors = null
             });
-            
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetProposals")]
+        public async Task<ActionResult> GetProposals(int Id)
+        {
+            return Ok(new CustomResponseDTO
+            {
+                Success = true,
+                Data = await propertyServices.GetAllProposals(Id),
+                Message = "Proposal is added successfully",
+                Errors = null
+            });
         }
     }
 }

@@ -166,7 +166,7 @@ namespace Sakany.Presentation
             #endregion
 
             app.UseCors("mypolicy");
-
+            app.UseStaticFiles();
             //app.UseAuthentication();
             app.UseAuthorization();
 

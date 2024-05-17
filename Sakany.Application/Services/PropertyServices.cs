@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Sakany.Application.DTOS;
 using Sakany.Application.Interfaces;
 using Sakany.Core.Entities;
@@ -122,9 +123,15 @@ namespace Sakany.Application.Services
             return propertyRepository.GetRandomProperties(size);
         }
 
-        public Task<Proposal> AddProposal(Proposal proposal)
+        public async Task<Proposal> AddProposal(ProposalDto proposalDto)
         {
-            return propertyRepository.AddProposalAsync(proposal);
+            Proposal proposal = mapper.Map<Proposal>(proposalDto);
+            return await propertyRepository.AddProposalAsync(proposal);
+        }
+
+        public async Task<List<Proposal>> GetAllProposals(int Id)
+        {
+            return await propertyRepository.GetAllProposalsAsync(Id);
         }
     }
 }
