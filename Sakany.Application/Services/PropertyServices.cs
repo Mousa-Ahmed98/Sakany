@@ -28,7 +28,7 @@ namespace Sakany.Application.Services
             this.mapper = mapper;
             this.cityServices = cityServices;
         }
-        public async Task<int> Add(PropertyDTO propertyDTO)
+        public async Task<int> Add(PropertyDTO propertyDTO,string UserID)
         {
             //Properties property = mapper.Map<Properties>(propertyDTO);
             Properties property = new Properties
@@ -47,7 +47,9 @@ namespace Sakany.Application.Services
                 UserName = propertyDTO.UserName,
                 Phone = propertyDTO.Phone,
                 Email = propertyDTO.Email,
-                GovernorateID = propertyDTO.Governorate
+                GovernorateID = propertyDTO.Governorate,
+                Date=DateTime.Now,
+                UserId=UserID,
             };
 
             Properties properties = await propertyRepository.AddAsync(property);

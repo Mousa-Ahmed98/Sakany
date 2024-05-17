@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Sakany.Core.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Sakany.Application.Services
 {
@@ -61,6 +62,10 @@ namespace Sakany.Application.Services
             return await AccountRepository.ChangePassword(model, user);
         }
 
+        public CustomResponseDTO DisplayUser(ClaimsPrincipal User, string jwtToken)
+        {
+            return AccountRepository.DisplayUser(User, jwtToken);
+        }
         public async Task<CustomDataOfUserDTO?> GetCustomData(string UserId)
         {
             ApplicationUser? applicationUser = await AccountRepository.GetUserProfile(UserId);
@@ -68,3 +73,4 @@ namespace Sakany.Application.Services
         }
     }
 }
+    

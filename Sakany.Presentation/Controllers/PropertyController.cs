@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sakany.Application.DTOS;
 using Sakany.Application.Interfaces;
 using Sakany.Core.Entities;
+using System.Security.Claims;
 
 namespace YourNamespace.Controllers
 {
@@ -28,6 +29,9 @@ namespace YourNamespace.Controllers
         [HttpPost]
         public async Task<ActionResult> AddProperty(PropertyDTO propertyDTO)
         {
+            var UserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+           
+
             if (!ModelState.IsValid)
             {
                 var customResponse = new CustomResponseDTO
@@ -47,7 +51,7 @@ namespace YourNamespace.Controllers
             //{
             //    fetsures.Add(feature);
             //}
-            int propertyId = await propertyServices.Add(propertyDTO);
+            int propertyId = await propertyServices.Add(propertyDTO, UserId);
             if (propertyId != 0)
             {
                 foreach (var fetsure in fetsures)
