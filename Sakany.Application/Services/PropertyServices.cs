@@ -12,10 +12,11 @@ namespace Sakany.Application.Services
         private readonly IImageRepository imageRepository;
         private readonly IMapper mapper;
         private readonly ICityServices cityServices;
+        private readonly IPropertyFeaturesRepository featuresRepository;
 
         public PropertyServices(
-            IPropertyRepository propertyRepository
-
+            IPropertyRepository propertyRepository,
+            IPropertyFeaturesRepository featuresRepository
             , IGovernorateRepository governorateRepository
             , IImageRepository imageRepository
             , IMapper mapper,
@@ -27,6 +28,7 @@ namespace Sakany.Application.Services
             this.imageRepository = imageRepository;
             this.mapper = mapper;
             this.cityServices = cityServices;
+            this.featuresRepository = featuresRepository;
         }
         public async Task<int> Add(PropertyDTO propertyDTO,string UserID)
         {
@@ -72,9 +74,33 @@ namespace Sakany.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<PropertiesDetilesDTO> GetById(int propertyID)
+        public async Task<PropertiesDetilesDTO> GetById(int propertyID)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("//////////////////////////////");
+            Console.WriteLine(propertyID);
+            Properties property = await propertyRepository.GetByIdAsync(propertyID);
+            if(property == null)
+            {
+                return null;
+            }
+            Console.WriteLine(property);
+            PropertiesDetilesDTO propertyDetailsDto = mapper.Map<PropertiesDetilesDTO>(property);
+            List<PropertyFeatures> propertyFeatures =
+                await featuresRepository.GetAllByPropertyIdAsync(propertyID);
+            Console.WriteLine(propertyFeatures[0].FeaturesName);
+            propertyDetailsDto.Features = new List<string>();
+            List<PropertyImage> propertyImages = await imageRepository.GetByPropertyIdAsync(propertyID);
+            propertyDetailsDto.Images = new List<string>();
+            foreach (PropertyFeatures item in propertyFeatures)
+            {
+                propertyDetailsDto.Features.Add(item.FeaturesName);
+            }
+
+            foreach (PropertyImage item in propertyImages)
+            {
+                propertyDetailsDto.Images.Add(item.ImageUrl);
+            }
+            return propertyDetailsDto;
         }
         public void Update(Properties property)
         {

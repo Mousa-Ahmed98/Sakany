@@ -22,7 +22,7 @@ namespace Sakany.Infrastructure
         public  DbSet<PropertyImage> PropertyImages { get; set; }
         public DbSet<Order> Orders { get; set; } //DbSet for Orders
 
-        protected override async void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
