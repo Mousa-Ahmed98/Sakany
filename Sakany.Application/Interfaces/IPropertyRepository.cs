@@ -13,5 +13,7 @@ namespace Sakany.Application.Interfaces
         public PropertyPaginationResponseDTO GetAllProperties(int pageNum, int pageSize, int numOfRooms, string priceRange, int govId, int city);
         public List<displayPropertyDTO> GetRandomProperties(int size);
 
+
+
     }
 }

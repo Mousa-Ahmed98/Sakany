@@ -206,5 +206,33 @@ namespace YourNamespace.Controllers
                 return BadRequest(customResponse);
             }
         }
+
+        [HttpGet("GetPropertyDetails")]
+        public async Task<IActionResult> GetPropertyDetails(int PropertyId)
+        {
+            PropertiesDetilesDTO propertyDetailsDto = 
+                await propertyServices.GetById(PropertyId);
+
+         
+            if(propertyDetailsDto == null)
+            {
+                var customResponseWithNoDate = new CustomResponseDTO
+                {
+                    Success = false,
+                    Message = "Property was not found",
+                    Data = null,
+                    Errors = null
+                };
+                return BadRequest(customResponseWithNoDate);
+            }
+            var customResponseSuccessfully = new CustomResponseDTO
+            {
+                Success = true,
+                Data = propertyDetailsDto,
+                Message = "data successfully retrieved",
+                Errors = null
+            };
+            return Ok(customResponseSuccessfully);
+        }
     }
 }
