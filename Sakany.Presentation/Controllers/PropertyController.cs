@@ -207,6 +207,49 @@ namespace YourNamespace.Controllers
             }
         }
 
+
+
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("AddProposal")]
+        public async Task<ActionResult> AddProposal(ProposalDto proposalDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                var customResponse = new CustomResponseDTO
+                {
+                    Success = false,
+                    Data = null,
+                    Message = "Proposal data is incomplete",
+                    Errors = ModelState.Values.SelectMany(v => v.Errors
+                                              .Select(e => e.ErrorMessage))
+                                              .ToList(),
+                };
+                return BadRequest(customResponse);
+            }
+
+            Proposal proposal = await propertyServices.AddProposal(proposalDto);
+            return Ok(new CustomResponseDTO
+            {
+                Success = true,
+                Data = proposal,
+                Message = "Proposal is added successfully",
+                Errors = null
+            });
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetProposals")]
+        public async Task<ActionResult> GetProposals(int Id)
+        {
+            return Ok(new CustomResponseDTO
+            {
+                Success = true,
+                Data = await propertyServices.GetAllProposals(Id),
+                Message = "Proposal is added successfully",
+                Errors = null
+            });
+
         [HttpGet("GetPropertyDetails")]
         public async Task<IActionResult> GetPropertyDetails(int PropertyId)
         {
@@ -233,6 +276,7 @@ namespace YourNamespace.Controllers
                 Errors = null
             };
             return Ok(customResponseSuccessfully);
+
         }
     }
 }

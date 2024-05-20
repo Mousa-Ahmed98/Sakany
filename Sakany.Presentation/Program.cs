@@ -181,7 +181,6 @@ namespace Sakany.Presentation
             app.UseCors("mypolicy");
 
             app.UseStaticFiles();
-
             //app.UseAuthentication();
             app.UseAuthorization();
 
