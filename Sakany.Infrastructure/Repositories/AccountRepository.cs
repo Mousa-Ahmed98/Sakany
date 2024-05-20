@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Azure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -21,8 +22,8 @@ namespace Sakany.Infrastructure.Repositories
         private UserManager<ApplicationUser> userManager;
         private IConfiguration configuration;
         private RoleManager<IdentityRole> RoleManager;
-        private readonly ApplicationDbContext dbContext;
-        private readonly IMapper mapper;
+        private ApplicationDbContext dbContext;
+        private IMapper mapper;
 
 
         public AccountRepository(UserManager<ApplicationUser> userManager, IConfiguration configuration,
@@ -146,6 +147,7 @@ namespace Sakany.Infrastructure.Repositories
                     return (new
                     {
                         token = new JwtSecurityTokenHandler().WriteToken(MyToken),
+                        Role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
                         Expired = MyToken.ValidTo
                     });
                 }
@@ -178,6 +180,29 @@ namespace Sakany.Infrastructure.Repositories
 
             return await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
 
+        }
+
+
+        public CustomResponseDTO DisplayUser(ClaimsPrincipal User , string jwtToken)
+        {
+            var response = new CustomResponseDTO();
+
+            var user = userManager.GetUserAsync(User).Result;
+
+            var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found";
+                return response;
+            }
+
+            response.Success = true;
+            response.Message = "Password changed successfully";
+            response.Data = new { User = user, Token = jwtToken, Role = roleClaim };
+            return response;
         }
 
     }

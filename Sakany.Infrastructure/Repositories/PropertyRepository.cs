@@ -171,6 +171,7 @@ namespace Sakany.Infrastructure.Repositories
 
         }
 
+
         public async Task<Proposal> AddProposalAsync(Proposal proposal)
         {
             await dbContext.Proposals.AddAsync(proposal);
@@ -184,5 +185,6 @@ namespace Sakany.Infrastructure.Repositories
                 .Where(p => p.Id == Id)
                 .ToListAsync();
         }
+
     }
 }

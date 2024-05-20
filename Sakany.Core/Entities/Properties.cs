@@ -9,6 +9,7 @@ namespace Sakany.Core.Entities
     public class Properties
     {
         public int Id { get; set; }
+        public string UserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
@@ -25,7 +26,12 @@ namespace Sakany.Core.Entities
         public string Phone { get; set; }
         public string Email { get; set; }
 
+
         public List<Proposal> Proposals { get; set; }
+
+        public DateTime Date { get; set; }
+        
+
     }
 
 }

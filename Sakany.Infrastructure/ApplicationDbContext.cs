@@ -13,6 +13,7 @@ namespace Sakany.Infrastructure
 
         }
 
+
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Governorate> Governorates { get; set; }
@@ -22,6 +23,12 @@ namespace Sakany.Infrastructure
         public DbSet<Proposal> Proposals { get; set; }
 
         protected override async void OnModelCreating(ModelBuilder modelBuilder)
+
+        public  DbSet<Message> Messages { get; set; }
+        public DbSet<Order> Orders { get; set; } //DbSet for Orders
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+
         {
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
