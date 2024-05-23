@@ -249,6 +249,7 @@ namespace YourNamespace.Controllers
                 Message = "Proposal is added successfully",
                 Errors = null
             });
+        }
 
         [HttpGet("GetPropertyDetails")]
         public async Task<IActionResult> GetPropertyDetails(int PropertyId)
