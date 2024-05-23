@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sakany.Application.DTOS;
 using Sakany.Application.Interfaces;
 using Sakany.Core.Entities;
+using System.Security.Claims;
 
 namespace YourNamespace.Controllers
 {
@@ -28,6 +29,9 @@ namespace YourNamespace.Controllers
         [HttpPost]
         public async Task<ActionResult> AddProperty(PropertyDTO propertyDTO)
         {
+            var UserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+           
+
             if (!ModelState.IsValid)
             {
                 var customResponse = new CustomResponseDTO
@@ -47,7 +51,7 @@ namespace YourNamespace.Controllers
             //{
             //    fetsures.Add(feature);
             //}
-            int propertyId = await propertyServices.Add(propertyDTO);
+            int propertyId = await propertyServices.Add(propertyDTO, UserId);
             if (propertyId != 0)
             {
                 foreach (var fetsure in fetsures)
@@ -201,6 +205,78 @@ namespace YourNamespace.Controllers
                 };
                 return BadRequest(customResponse);
             }
+        }
+
+
+
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("AddProposal")]
+        public async Task<ActionResult> AddProposal(ProposalDto proposalDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                var customResponse = new CustomResponseDTO
+                {
+                    Success = false,
+                    Data = null,
+                    Message = "Proposal data is incomplete",
+                    Errors = ModelState.Values.SelectMany(v => v.Errors
+                                              .Select(e => e.ErrorMessage))
+                                              .ToList(),
+                };
+                return BadRequest(customResponse);
+            }
+
+            Proposal proposal = await propertyServices.AddProposal(proposalDto);
+            return Ok(new CustomResponseDTO
+            {
+                Success = true,
+                Data = proposal,
+                Message = "Proposal is added successfully",
+                Errors = null
+            });
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetProposals")]
+        public async Task<ActionResult> GetProposals(int Id)
+        {
+            return Ok(new CustomResponseDTO
+            {
+                Success = true,
+                Data = await propertyServices.GetAllProposals(Id),
+                Message = "Proposal is added successfully",
+                Errors = null
+            });
+
+        [HttpGet("GetPropertyDetails")]
+        public async Task<IActionResult> GetPropertyDetails(int PropertyId)
+        {
+            PropertiesDetilesDTO propertyDetailsDto = 
+                await propertyServices.GetById(PropertyId);
+
+         
+            if(propertyDetailsDto == null)
+            {
+                var customResponseWithNoDate = new CustomResponseDTO
+                {
+                    Success = false,
+                    Message = "Property was not found",
+                    Data = null,
+                    Errors = null
+                };
+                return BadRequest(customResponseWithNoDate);
+            }
+            var customResponseSuccessfully = new CustomResponseDTO
+            {
+                Success = true,
+                Data = propertyDetailsDto,
+                Message = "data successfully retrieved",
+                Errors = null
+            };
+            return Ok(customResponseSuccessfully);
+
         }
     }
 }

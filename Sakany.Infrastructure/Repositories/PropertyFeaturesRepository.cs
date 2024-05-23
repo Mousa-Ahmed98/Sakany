@@ -25,7 +25,7 @@ namespace Sakany.Infrastructure.Repositories
 
         public async Task<List<PropertyFeatures>> GetAllByPropertyIdAsync(int propertyId)
         {
-            var listFeatures = await dbContext.Set<PropertyFeatures>()
+            List<PropertyFeatures> listFeatures = await dbContext.Set<PropertyFeatures>()
                 .Where(e => e.PropertyId == propertyId)
                 .ToListAsync();
             return listFeatures;

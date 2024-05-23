@@ -89,7 +89,7 @@ namespace Sakany.Presentation.Controllers
                     {
                         Success = true,
                         Message = "Login successful",
-                        Data = new { Response = res }
+                        Data =  res 
                     };
 
                     return Ok(customResponse);

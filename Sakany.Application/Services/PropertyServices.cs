@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Sakany.Application.DTOS;
 using Sakany.Application.Interfaces;
 using Sakany.Core.Entities;
@@ -12,10 +13,11 @@ namespace Sakany.Application.Services
         private readonly IImageRepository imageRepository;
         private readonly IMapper mapper;
         private readonly ICityServices cityServices;
+        private readonly IPropertyFeaturesRepository featuresRepository;
 
         public PropertyServices(
-            IPropertyRepository propertyRepository
-
+            IPropertyRepository propertyRepository,
+            IPropertyFeaturesRepository featuresRepository
             , IGovernorateRepository governorateRepository
             , IImageRepository imageRepository
             , IMapper mapper,
@@ -27,8 +29,9 @@ namespace Sakany.Application.Services
             this.imageRepository = imageRepository;
             this.mapper = mapper;
             this.cityServices = cityServices;
+            this.featuresRepository = featuresRepository;
         }
-        public async Task<int> Add(PropertyDTO propertyDTO)
+        public async Task<int> Add(PropertyDTO propertyDTO,string UserID)
         {
             //Properties property = mapper.Map<Properties>(propertyDTO);
             Properties property = new Properties
@@ -47,7 +50,9 @@ namespace Sakany.Application.Services
                 UserName = propertyDTO.UserName,
                 Phone = propertyDTO.Phone,
                 Email = propertyDTO.Email,
-                GovernorateID = propertyDTO.Governorate
+                GovernorateID = propertyDTO.Governorate,
+                Date=DateTime.Now,
+                UserId=UserID,
             };
 
             Properties properties = await propertyRepository.AddAsync(property);
@@ -70,9 +75,33 @@ namespace Sakany.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<PropertiesDetilesDTO> GetById(int propertyID)
+        public async Task<PropertiesDetilesDTO> GetById(int propertyID)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("//////////////////////////////");
+            Console.WriteLine(propertyID);
+            Properties property = await propertyRepository.GetByIdAsync(propertyID);
+            if(property == null)
+            {
+                return null;
+            }
+            Console.WriteLine(property);
+            PropertiesDetilesDTO propertyDetailsDto = mapper.Map<PropertiesDetilesDTO>(property);
+            List<PropertyFeatures> propertyFeatures =
+                await featuresRepository.GetAllByPropertyIdAsync(propertyID);
+            Console.WriteLine(propertyFeatures[0].FeaturesName);
+            propertyDetailsDto.Features = new List<string>();
+            List<PropertyImage> propertyImages = await imageRepository.GetByPropertyIdAsync(propertyID);
+            propertyDetailsDto.Images = new List<string>();
+            foreach (PropertyFeatures item in propertyFeatures)
+            {
+                propertyDetailsDto.Features.Add(item.FeaturesName);
+            }
+
+            foreach (PropertyImage item in propertyImages)
+            {
+                propertyDetailsDto.Images.Add(item.ImageUrl);
+            }
+            return propertyDetailsDto;
         }
         public void Update(Properties property)
         {
@@ -120,6 +149,17 @@ namespace Sakany.Application.Services
         public List<displayPropertyDTO> GetRandomProperties(int size)
         {
             return propertyRepository.GetRandomProperties(size);
+        }
+
+        public async Task<Proposal> AddProposal(ProposalDto proposalDto)
+        {
+            Proposal proposal = mapper.Map<Proposal>(proposalDto);
+            return await propertyRepository.AddProposalAsync(proposal);
+        }
+
+        public async Task<List<Proposal>> GetAllProposals(int Id)
+        {
+            return await propertyRepository.GetAllProposalsAsync(Id);
         }
     }
 }

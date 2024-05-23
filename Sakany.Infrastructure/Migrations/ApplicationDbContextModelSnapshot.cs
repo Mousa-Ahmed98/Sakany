@@ -285,8 +285,34 @@ namespace Sakany.Infrastructure.Migrations
                     b.ToTable("Governorates");
                 });
 
-
             modelBuilder.Entity("Sakany.Core.Entities.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
 
             modelBuilder.Entity("Sakany.Core.Entities.Order", b =>
                 {
@@ -319,7 +345,6 @@ namespace Sakany.Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
-
             modelBuilder.Entity("Sakany.Core.Entities.Properties", b =>
                 {
                     b.Property<int>("Id")
@@ -340,6 +365,12 @@ namespace Sakany.Infrastructure.Migrations
                     b.Property<int>("City")
                         .HasColumnType("int");
 
+
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -348,21 +379,6 @@ namespace Sakany.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MessageText")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Messages");
                     b.Property<int>("GovernorateID")
                         .HasColumnType("int");
 
@@ -389,6 +405,10 @@ namespace Sakany.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -441,6 +461,30 @@ namespace Sakany.Infrastructure.Migrations
                     b.ToTable("PropertyImages");
                 });
 
+            modelBuilder.Entity("Sakany.Core.Entities.Proposal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PropertiesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("PropertiesId");
+
+                    b.ToTable("Proposals");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -490,6 +534,25 @@ namespace Sakany.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Sakany.Core.Entities.Proposal", b =>
+                {
+                    b.HasOne("Sakany.Core.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Sakany.Core.Entities.Properties", "Property")
+                        .WithMany()
+                        .HasForeignKey("PropertiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Property");
                 });
 #pragma warning restore 612, 618
         }

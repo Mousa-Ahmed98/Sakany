@@ -170,5 +170,21 @@ namespace Sakany.Infrastructure.Repositories
             dbContext.SaveChanges();
 
         }
+
+
+        public async Task<Proposal> AddProposalAsync(Proposal proposal)
+        {
+            await dbContext.Proposals.AddAsync(proposal);
+            await dbContext.SaveChangesAsync();
+            return proposal;
+        }
+
+        public async Task<List<Proposal>> GetAllProposalsAsync(int Id)
+        {
+            return await dbContext.Proposals
+                .Where(p => p.Id == Id)
+                .ToListAsync();
+        }
+
     }
 }

@@ -9,6 +9,7 @@ namespace Sakany.Application.DTOS
     public class PropertiesDetilesDTO
     {
         public int Id { get; set; }
+        public string UserId { get; set; }
         public string Title { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }
@@ -19,6 +20,6 @@ namespace Sakany.Application.DTOS
         public string City { get; set; }
         public int BathroomNumber { get; set; }
         public List<string> Images { get; set; }
-
+        public List<string> Features { get; set; }
     }
 }
