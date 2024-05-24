@@ -22,8 +22,6 @@ namespace Sakany.Infrastructure
         public DbSet<PropertyImage> PropertyImages { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
 
-        protected override async void OnModelCreating(ModelBuilder modelBuilder)
-
         public  DbSet<Message> Messages { get; set; }
         public DbSet<Order> Orders { get; set; } //DbSet for Orders
 
